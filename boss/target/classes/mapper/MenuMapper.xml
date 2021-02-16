@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trans.payment.boss.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Menu">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId"/>
+    <result column="parent_ids" jdbcType="VARCHAR" property="parentIds"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="sort" jdbcType="DECIMAL" property="sort"/>
+    <result column="href" jdbcType="VARCHAR" property="href"/>
+    <result column="to_url" jdbcType="VARCHAR" property="toUrl"/>
+    <result column="target" jdbcType="VARCHAR" property="target"/>
+    <result column="icon" jdbcType="VARCHAR" property="icon"/>
+    <result column="is_show" jdbcType="CHAR" property="isShow"/>
+    <result column="permission" jdbcType="VARCHAR" property="permission"/>
+    <result column="system_sign" jdbcType="VARCHAR" property="systemSign"/>
+    <result column="creator" jdbcType="VARCHAR" property="creator"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="operator" jdbcType="VARCHAR" property="operator"/>
+    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime"/>
+    <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+    <result column="status" jdbcType="CHAR" property="status"/>
+  </resultMap>
+
+  <sql id="menuColumns">
+    a.id,
+    a.parent_id AS "parent.id",
+    a.parent_ids,
+    a.name,
+    a.sort,
+    a.to_url AS "href",
+    a.target,
+    a.icon,
+    a.is_show,
+    a.permission,
+    a.system_sign,
+    a.creator AS "creator.id",
+    a.create_time,
+    a.operator AS "operator.id",
+    a.oper_time,
+    a.remarks,
+    a.status,
+    p.name AS "parent.name"
+  </sql>
+
+  <select id="selectMenuList" resultMap="BaseResultMap" parameterType="com.trans.payment.boss.entity.Menu">
+    select t.* from sys_menu t where status = #{status} ORDER BY t.sort ASC
+  </select>
+
+  <select id="selectParentList" resultType="com.trans.payment.boss.entity.Menu">
+    select
+    <include refid="menuColumns"/>
+    from sys_menu a,sys_menu p where 1=1
+    and a.parent_id=p.id
+    and a.status = '0'
+    and a.id in ${parentIds}
+  </select>
+
+
+  <select id="getUserMenu" resultType="com.trans.payment.boss.entity.Menu">
+    SELECT *
+    FROM sys_menu a
+    WHERE a.id IN(
+    SELECT menu_id FROM sys_user_menu  WHERE user_id = #{id})
+  </select>
+
+
+  <update id="deleteMenu">
+    UPDATE sys_menu SET
+    status = #{status}
+    WHERE id = #{id} OR parent_ids LIKE
+    CONCAT('%', #{id}, '%')
+  </update>
+
+
+  <update id="updateParentIds">
+    UPDATE sys_menu SET
+    parent_id = #{parent.id},
+    parent_ids = #{parentIds}
+    WHERE id = #{id}
+  </update>
+
+  <select id="findByParentIdsLike" resultType="com.trans.payment.boss.entity.Menu">
+    SELECT
+    a.id,
+    a.parent_id AS "parent.id",
+    a.parent_ids
+    FROM sys_menu a
+    WHERE a.status = 0 AND a.parent_ids LIKE #{parentIds}
+    ORDER BY a.sort
+  </select>
+
+
+  <select id="findByUserId" resultMap="BaseResultMap">
+    SELECT DISTINCT a.*
+    FROM sys_menu a
+    LEFT JOIN sys_menu p ON p.id = a.parent_id
+    JOIN sys_role_menu rm ON rm.menu_id = a.id
+    JOIN sys_role r ON r.id = rm.role_id AND r.status=1
+    JOIN sys_user_role ur ON ur.role_id = r.id
+    JOIN sys_user u ON u.id = ur.user_id AND u.id = #{userId}
+    WHERE a.status = 0
+    UNION
+    SELECT DISTINCT a.*
+    FROM sys_user_menu um
+    INNER JOIN sys_menu a
+    ON um.menu_id = a.id
+    LEFT JOIN sys_menu p ON p.id = a.parent_id
+    WHERE a.status = 0
+    AND um.user_id = #{userId}
+    ORDER BY sort
+  </select>
+
+  <sql id="menuJoins">
+    LEFT JOIN sys_menu p ON p.id = a.parent_id
+  </sql>
+
+  <select id="findAllList" resultType="com.trans.payment.boss.entity.Menu">
+    SELECT
+    <include refid="menuColumns"/>
+    FROM sys_menu a
+    <include refid="menuJoins"/>
+    WHERE a.status = 0
+    ORDER BY a.sort
+  </select>
+
+
+  <select id="findMenuListByUserId" resultMap="BaseResultMap">
+    SELECT DISTINCT
+    m.*
+    FROM
+    sys_menu m
+    INNER JOIN sys_role_menu rm ON m.id = rm.menu_id
+    INNER JOIN sys_user_role ur ON ur.role_id = rm.role_id
+    WHERE
+    ur.user_id = #{userId}
+    AND m.STATUS = '0'
+    ORDER BY m.sort
+  </select>
+
+
+  <select id="findMenuListParent" resultMap="BaseResultMap">
+    SELECT
+    m.*
+    FROM
+    sys_menu m
+    WHERE m.id IN
+    <foreach collection="collection" open="(" separator="," close=")" item="val">
+      ${val}
+    </foreach>
+    AND m.STATUS = '0'
+    ORDER BY m.sort
+  </select>
+
+
+  <select id="selectUserMenuByRoleId" resultMap="BaseResultMap">
+    SELECT
+    m.id,
+    m.`name`,
+    m.href,
+    m.to_url
+    FROM
+    sys_menu m
+    INNER JOIN sys_role_menu rm ON m.id = rm.menu_id
+    WHERE
+    role_id = #{roleId}
+  </select>
+
+
+  <select id="selectUserMenuList" resultMap="BaseResultMap">
+    SELECT
+    m.*
+    FROM
+    sys_menu m
+    INNER JOIN sys_role_menu rm ON m.id = rm.menu_id
+    WHERE rm.role_id IN
+    <foreach collection="collection" open="(" separator="," close=")" item="val">
+      #{val}
+    </foreach>
+    ORDER BY m.sort
+  </select>
+</mapper>

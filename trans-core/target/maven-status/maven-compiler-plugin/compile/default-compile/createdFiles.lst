@@ -1,0 +1,14 @@
+com\trans\payment\core\gateway\controller\ApiOpenController.class
+com\trans\payment\core\gateway\entity\ApiReq$AddGroup.class
+com\trans\payment\core\controller\TestController.class
+com\trans\payment\core\service\impl\PaymentApiServiceImpl.class
+com\trans\payment\core\service\TestServiceImpl.class
+com\trans\payment\core\gateway\entity\ApiReq.class
+com\trans\payment\core\service\AbstractApiService.class
+com\trans\payment\core\service\RouteService.class
+com\trans\payment\core\gateway\entity\CommonEnum.class
+com\trans\payment\core\service\ApiCommonService.class
+com\trans\payment\core\service\TestService.class
+com\trans\payment\core\channel\PaymentChannelService.class
+com\trans\payment\core\service\impl\RouteServiceImpl.class
+com\trans\payment\core\CoreApplication.class

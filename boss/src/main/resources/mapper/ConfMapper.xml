@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trans.payment.boss.mapper.ConfMapper">
+  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Conf">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="conf_key" jdbcType="VARCHAR" property="confKey"/>
+    <result column="scope" jdbcType="VARCHAR" property="scope"/>
+    <result column="creator" jdbcType="VARCHAR" property="creator"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="operator" jdbcType="VARCHAR" property="operator"/>
+    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime"/>
+    <result column="status" jdbcType="CHAR" property="status"/>
+    <result column="conf_value" jdbcType="LONGVARCHAR" property="confValue"/>
+  </resultMap>
+
+  <select id="getYearMonthFromNow" resultType="java.lang.String">
+    SELECT DATE_FORMAT(CURDATE(), '%Y-%m') AS "dateMonth"
+    UNION ALL
+    SELECT DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 1 MONTH),'%Y-%m') AS "dateMonth"
+    UNION ALL
+    SELECT DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 2 MONTH),'%Y-%m') AS "dateMonth"
+    UNION ALL
+    SELECT DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 3 MONTH),'%Y-%m') AS "dateMonth"
+    UNION ALL
+    SELECT DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 4 MONTH),'%Y-%m') AS "dateMonth"
+    UNION ALL
+    SELECT DATE_FORMAT(DATE_ADD(CURDATE(),INTERVAL 5 MONTH),'%Y-%m') AS "dateMonth"
+  </select>
+
+
+  <select id="getScopes" resultType="String">
+    SELECT distinct(scope) FROM sys_dict_type
+  </select>
+
+  <!-- 删除-->
+  <update id="deleteConf" parameterType="com.trans.payment.boss.entity.Conf">
+    UPDATE sys_config SET status = #{status} WHERE id = #{id}
+  </update>
+
+  <!-- 修改配置状态-->
+  <update id="enable">
+    UPDATE sys_config SET status = #{status} WHERE id = #{id}
+  </update>
+
+  <!-- 根据主键查询 -->
+  <select id="findConfigByKey" resultType="com.trans.payment.boss.entity.Conf">
+    SELECT id AS "id", conf_key, conf_value, scope AS "scope"
+    FROM sys_config
+    WHERE
+    conf_key = #{confKey}
+  </select>
+</mapper>

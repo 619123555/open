@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trans.payment.boss.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.User">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+    <result column="office_id" jdbcType="VARCHAR" property="officeId"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="no" jdbcType="VARCHAR" property="no"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="gender" jdbcType="CHAR" property="gender"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="phone" jdbcType="VARCHAR" property="phone"/>
+    <result column="user_type" jdbcType="CHAR" property="userType"/>
+    <result column="photo" jdbcType="VARCHAR" property="photo"/>
+    <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+    <result column="login_ip" jdbcType="VARCHAR" property="loginIp"/>
+    <result column="login_date" jdbcType="TIMESTAMP" property="loginDate"/>
+    <result column="login_flag" jdbcType="VARCHAR" property="loginFlag"/>
+    <result column="manage_channel" jdbcType="VARCHAR" property="manageChannel"/>
+    <result column="creator" jdbcType="VARCHAR" property="creator"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="operator" jdbcType="VARCHAR" property="operator"/>
+    <result column="oper_time" jdbcType="TIMESTAMP" property="operTime"/>
+    <result column="status" jdbcType="CHAR" property="status"/>
+    <result column="oa_code" jdbcType="VARCHAR" property="oaCode"/>
+    <result column="secret" jdbcType="VARCHAR" property="secret"/>
+  </resultMap>
+  <sql id="userColumns">
+    a.id,
+    a.company_id AS "company.id",
+    a.office_id AS "office.id",
+    a.password,
+    a.no,
+    a.name,
+    a.email,
+    a.phone,
+    a.mobile,
+    a.user_type AS "userType",
+    a.login_ip,
+    a.login_date,
+    a.login_flag,
+    a.photo,
+    a.creator AS "creator.id",
+    a.create_time,
+    a.operator AS "operator.id",
+    a.oper_time,
+    a.status,
+    a.gender,
+    a.manage_channel AS "manageChannel",
+    a.secret,
+    c.name AS "company.name",
+    c.code AS "company.code",
+    c.type AS "company.type",
+    c.parent_id AS "company.parent.id",
+    c.parent_ids AS "company.parentIds",
+    o.name AS "office.name",
+    o.code AS "office.code",
+    o.type AS "office.type",
+    o.grade AS "office.grade",
+    o.parent_id AS "office.parent.id",
+    o.parent_ids AS "office.parentIds",
+    cu.id AS "company.primaryPerson.id",
+    cu.name AS "company.primaryPerson.name",
+    cu2.id AS "company.deputyPerson.id",
+    cu2.name AS "company.deputyPerson.name",
+    ou.id AS "office.primaryPerson.id",
+    ou.name AS "office.primaryPerson.name",
+    ou2.id AS "office.deputyPerson.id",
+    ou2.name AS "office.deputyPerson.name"
+  </sql>
+
+  <sql id="userJoins">
+    LEFT JOIN sys_organization c ON c.id = a.company_id
+    LEFT JOIN sys_organization o ON o.id = a.office_id
+    LEFT JOIN sys_user cu ON cu.id = c.primary_person
+    LEFT JOIN sys_user cu2 ON cu2.id = c.deputy_person
+    LEFT JOIN sys_user ou ON ou.id = o.primary_person
+    LEFT JOIN sys_user ou2 ON ou2.id = o.deputy_person
+  </sql>
+
+  <!-- 分页查询用户信息 -->
+  <select id="findList" resultType="com.trans.payment.boss.entity.User"
+    parameterType="com.trans.payment.boss.entity.User">
+    SELECT
+    <include refid="userColumns"/>
+    FROM sys_user a
+    <include refid="userJoins"/>
+    <if test="role != null and role.id != null and role.id != ''">
+      JOIN sys_user_role ur ON ur.user_id = a.id AND ur.role_id = #{role.id}
+    </if>
+    WHERE 1=1
+    <if test="company != null and company.id != null and company.id != ''">
+      AND c.id = #{company.id}
+    </if>
+    <if test="office != null and office.id != null and office.id != ''">
+      AND (o.parent_ids LIKE CONCAT('%,', #{office.id}, ',%') OR o.id = #{office.id})
+    </if>
+    <if test="name != null and name != ''">
+      AND a.name like CONCAT('%', #{name}, '%')
+    </if>
+    <if test="no != null and no != ''">
+      AND a.no like CONCAT('%', #{no}, '%')
+    </if>
+    <if test="email != null and email != ''">
+      AND a.email = #{email}
+    </if>
+    <if test="mobile != null and mobile != ''">
+      AND a.mobile = #{mobile}
+    </if>
+  </select>
+
+  <!-- 删除用户和角色关联表数据 -->
+  <delete id="deleteUserRole">
+    DELETE FROM sys_user_role WHERE user_id = #{id}
+  </delete>
+
+
+  <!-- 插入用户和角色关联表数据 -->
+  <insert id="insertUserRole">
+    INSERT INTO sys_user_role(user_id, role_id)
+    <foreach collection="roleList" item="role" separator=" union all ">
+      SELECT #{id}, #{role.id}
+      FROM dual
+    </foreach>
+  </insert>
+
+
+  <select id="getUserMaxNo" resultType="com.trans.payment.boss.entity.UserOthProObj">
+    select IFNULL(MAX(CAST(substring(no,3) AS signed )),0) as "maxNo" from sys_user where
+    1=1
+    <if test="userNOStr != null and userNOStr != ''">
+      AND no LIKE CONCAT(#{userNOStr}, '%')
+    </if>
+  </select>
+
+  <!--根据角色 查询该角色下的分配用户 -->
+  <select id="showSelectedRoleUser" resultType="com.trans.payment.boss.entity.User"
+    parameterType="com.trans.payment.boss.entity.Role">
+    select s.name,s.no,s.id from sys_user s,sys_user_role u where 1=1
+    and s.id=u.user_id
+    and role_id=#{id}
+  </select>
+
+
+  <!-- 获取除机构下用户 -->
+  <select id="selectOrgUser" resultType="com.trans.payment.boss.entity.User">
+    select group_concat(b.id separator ',') as "userIds" from sys_user_role a INNER JOIN sys_user b on(a.user_id=b.id)
+    where 1=1
+    and b.office_id in(select d.id from sys_organization d,sys_organization e where 1=1
+    and (d.parent_ids like CONCAT('%',e.id,'%') or d.id=e.id)
+    and e.id=#{office.id})
+    and a.role_id=#{role.id}
+  </select>
+
+  <!-- 删除机构下用户和角色关联表数据 -->
+  <delete id="deleteOrgUserRole">
+    DELETE FROM sys_user_role where 1=1 and role_id=#{role.id} and user_id in ${userIds}
+  </delete>
+
+  <!-- 根据登录名、邮箱、手机查询用户 yzy-->
+  <select id="getByNoOrMobileOrEmail" resultType="com.trans.payment.boss.entity.User"
+    parameterType="com.trans.payment.boss.entity.User">
+    SELECT
+    <include refid="userColumns"/>
+    FROM sys_user a
+    <include refid="userJoins"/>
+    WHERE (a.no = #{no} OR a.email = #{no} OR a.mobile = #{no}) AND a.status = #{STATUS_NORMAL}
+  </select>
+
+  <!-- 定制根据用户编号查询用户列表信息 yzy-->
+  <select id="findUserInfoList" resultType="com.trans.payment.boss.entity.User" parameterType="java.util.List">
+    SELECT
+    <include refid="userColumns"/>
+    FROM sys_user a
+    <include refid="userJoins"/>
+    WHERE a.NO IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
+  <!-- 根据登录名查询用户 -->
+  <select id="getByNo" resultType="com.trans.payment.boss.entity.User"
+    parameterType="com.trans.payment.boss.entity.User">
+    SELECT
+    <include refid="userColumns"/>
+    FROM sys_user a
+    <include refid="userJoins"/>
+    WHERE a.no = #{no}
+  </select>
+
+
+  <select id="login" parameterType="java.lang.String" resultType="com.trans.payment.boss.entity.User">
+    select * from sys_user where email  = #{email}
+  </select>
+
+  <!-- 删除用户下所有特殊菜单 -->
+  <delete id="deleteUserMenu">
+    DELETE FROM sys_user_menu WHERE user_id = #{id}
+  </delete>
+
+  <!-- 插入用户和菜单关联表的数据 -->
+  <insert id="addUserMenu">
+    INSERT INTO sys_user_menu (user_id,menu_id) VALUES(#{id},#{menuId})
+  </insert>
+
+  <!-- 更新用户管理渠道 -->
+  <update id="updateManageChannel">
+    UPDATE sys_user SET
+    manage_channel = #{manageChannel}
+    WHERE id = #{id}
+  </update>
+
+
+  <!-- 删除用户和角色关联表数据 -->
+  <delete id="deleteUserRoleId" parameterType="java.lang.String">
+    DELETE FROM sys_user_role WHERE user_id = #{userId} AND role_id = #{roleId}
+  </delete>
+
+  <select id="selectUserExistByEmailOrMobile" parameterType="com.trans.payment.boss.entity.User" resultType="Integer">
+    SELECT count(*) FROM sys_user where (email = #{email} OR mobile = #{mobile})
+  </select>
+
+  <select id="loginByMobile" parameterType="java.lang.String" resultType="com.trans.payment.boss.entity.User">
+    select * from sys_user where mobile  = #{mobile}
+  </select>
+
+
+  <select id="selectUserByRoleId" resultMap="BaseResultMap" parameterType="string">
+    SELECT * FROM sys_user u
+    INNER JOIN sys_user_role r on u.id = r.user_id
+    WHERE r.role_id = #{roleId}
+  </select>
+</mapper>

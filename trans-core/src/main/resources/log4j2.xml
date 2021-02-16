@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<configuration status="DEBUG" monitorInterval="30">
+  <properties>
+    <property name="level">DEBUG</property>
+    <Property name="log.dir">./logs</Property>
+  </properties>
+
+  <appenders>
+    <console name="Console" target="SYSTEM_OUT">
+      <PatternLayout
+        pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %X{X-B3-TraceId} %X{requestId} %p %logger{36}:%L %msg%n"/>
+    </console>
+    <!--设置打印级别的信息，每次大小超过size-->
+    <RollingFile name="RollingFileInfo" fileName="${log.dir}/trans-core.log"
+      filePattern="${log.dir}/trans-core-%d{yyyy-MM-dd}-%i.log">
+      <ThresholdFilter level="${level}"/>
+      <PatternLayout
+        pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %X{X-B3-TraceId} %X{requestId} %p %logger{36}:%L %msg%n"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy/>
+        <SizeBasedTriggeringPolicy size="2048 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="30"/>
+    </RollingFile>
+  </appenders>
+
+  <loggers>
+    <!--适当过滤不需要的日志-->
+    <logger name="org.springframework" level="INFO"></logger>
+    <logger name="com.netflix" level="INFO"></logger>
+    <logger name="org.apache.http" level="INFO"></logger>
+    <logger name="springfox.documentation.spring.web" level="INFO"></logger>
+    <logger name="druid.sql" level="INFO"></logger>
+    <logger name="com.alibaba.druid" level="INFO"></logger>
+    <logger name="org.mybatis" level="INFO"></logger>
+    <logger name="springfox.documentation" level="INFO"></logger>
+    <logger name="org.apache.shiro" level="INFO"></logger>
+    <logger name="org.hibernate.validator" level="INFO"></logger>
+    <logger name="io.lettuce" level="INFO"></logger>
+
+    <root level="all">
+      <appender-ref ref="Console"/>
+      <appender-ref ref="RollingFileInfo"/>
+      <appender-ref ref="RollingFileWarn"/>
+      <appender-ref ref="RollingFileError"/>
+    </root>
+  </loggers>
+
+</configuration>

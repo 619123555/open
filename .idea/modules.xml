@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/boss/boss.iml" filepath="$PROJECT_DIR$/boss/boss.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/trans.iml" filepath="$PROJECT_DIR$/.idea/trans.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trans-common/trans-common.iml" filepath="$PROJECT_DIR$/trans-common/trans-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trans-core/trans-core.iml" filepath="$PROJECT_DIR$/trans-core/trans-core.iml" />
+    </modules>
+  </component>
+</project>

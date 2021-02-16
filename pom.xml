@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.3.3.RELEASE</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>com.trans.payment</groupId>
+  <artifactId>payment</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <description>交易平台</description>
+  <inceptionYear>2021</inceptionYear>
+
+  <modules>
+    <module>trans-common</module>
+    <module>trans-core</module>
+    <module>boss</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <fastjson.version>1.2.58</fastjson.version>
+    <commons-lang3.version>3.8.1</commons-lang3.version>
+    <feign-okhttp.version>10.2.3</feign-okhttp.version>
+    <httpcomponents.httpcore.version>4.4.9</httpcomponents.httpcore.version>
+    <httpcomponents.httpmime.version>4.5.5</httpcomponents.httpmime.version>
+    <guava.version>28.0-jre</guava.version>
+    <druid-spring-boot-starter.version>1.1.17</druid-spring-boot-starter.version>
+    <mysql-connector-java.version>5.1.47</mysql-connector-java.version>
+    <shiro.version>1.4.2</shiro.version>
+    <commons-net.version>3.6</commons-net.version>
+    <pagehelper-spring-boot-starter.version>1.2.12</pagehelper-spring-boot-starter.version>
+    <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
+    <hutool.version>5.4.1</hutool.version>
+    <jedis.version>3.1.0</jedis.version>
+  </properties>
+
+  <build>
+    <finalName>${project.name}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.21.0</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+          <delimiters>
+            <delimiter>${*}</delimiter>
+          </delimiters>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.7</version>
+        <configuration>
+          <generateBackupPoms>false</generateBackupPoms>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
