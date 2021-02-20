@@ -48,7 +48,7 @@
         <!--生成Model类存放位置-->
         <javaModelGenerator targetPackage="com.trans.payment.core.entity" targetProject="src/main/java">
             <!--<property name="constructorBased" value="false"/>-->
-            <property name="useActualColumnNames" value="true"/>
+            <property name="useActualColumnNames" value="false"/>
             <property name="enableSubPackages" value="true"/>
 
             <property name="enableSubPackages" value="true"/>
@@ -70,7 +70,6 @@
 
         <!--生成对应表及类名 -->
         <table tableName="t_payment_order" domainObjectName="PaymentOrder">
-        <property name="useActualColumnNames" value="true"/>
         </table>
 
     </context>
