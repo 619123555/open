@@ -1,5 +1,6 @@
 package com.trans.payment.core.gateway.entity;
 
+import com.trans.payment.common.utils.validator.group.AddGroup;
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.Data;
@@ -67,8 +68,4 @@ public class ApiReq implements Serializable {
      * 网关补充参数
      */
     private String systemId;
-
-    public interface AddGroup {
-
-    }
 }

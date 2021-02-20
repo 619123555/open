@@ -16,7 +16,6 @@ com\trans\payment\common\utils\signature\key\KeyReader.class
 com\trans\payment\common\utils\signature\AesSign.class
 com\trans\payment\common\utils\httpclient\ApacheHttpClient.class
 com\trans\payment\common\utils\httpclient\OkHttpClient.class
-com\trans\payment\common\exception\ValidatorUtils.class
 com\trans\payment\common\exception\PreException.class
 com\trans\payment\common\exception\GatewayException.class
 com\trans\payment\common\utils\Global.class

@@ -67,6 +67,7 @@ public class PaymentApiServiceImpl extends AbstractApiService {
 
 
     logger.info("代付返回参数:{}", "");
-    return (JSONObject) JSONObject.toJSON("");
+//    return (JSONObject) JSONObject.toJSON("{'code':'000'}");
+    return new JSONObject();
   }
 }

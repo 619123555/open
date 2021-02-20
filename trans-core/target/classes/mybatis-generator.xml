@@ -36,7 +36,7 @@
 
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-          connectionURL="jdbc:mysql://39.97.101.65:3306/mysql?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+          connectionURL="jdbc:mysql://39.97.101.65:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
           userId="root"
           password="privateTest">
         </jdbcConnection>
@@ -48,7 +48,7 @@
         <!--生成Model类存放位置-->
         <javaModelGenerator targetPackage="com.trans.payment.core.entity" targetProject="src/main/java">
             <!--<property name="constructorBased" value="false"/>-->
-            <property name="useActualColumnNames" value="true"/>
+            <property name="useActualColumnNames" value="false"/>
             <property name="enableSubPackages" value="true"/>
 
             <property name="enableSubPackages" value="true"/>
@@ -69,8 +69,7 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名 -->
-        <table tableName="tb_message" domainObjectName="MessageDb">
-        <property name="useActualColumnNames" value="true"/>
+        <table tableName="t_payment_order" domainObjectName="PaymentOrder">
         </table>
 
     </context>

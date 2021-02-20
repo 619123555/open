@@ -5,9 +5,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Table(name = "t_payment_order")
+@NoArgsConstructor
 public class PaymentOrder implements Serializable {
     @Id
     @Column(name = "id")
