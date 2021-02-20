@@ -36,7 +36,7 @@
 
         <!--数据库链接地址账号密码-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-          connectionURL="jdbc:mysql://39.97.101.65:3306/mysql?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+          connectionURL="jdbc:mysql://39.97.101.65:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
           userId="root"
           password="privateTest">
         </jdbcConnection>
@@ -69,7 +69,7 @@
         </javaClientGenerator>
 
         <!--生成对应表及类名 -->
-        <table tableName="tb_message" domainObjectName="MessageDb">
+        <table tableName="t_payment_order" domainObjectName="PaymentOrder">
         <property name="useActualColumnNames" value="true"/>
         </table>
 

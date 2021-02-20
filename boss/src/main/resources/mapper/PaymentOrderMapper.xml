@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.trans.payment.boss.mapper.PaymentOrderMapper">
+  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.PaymentOrder">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="pay_type" jdbcType="VARCHAR" property="pay_type" />
+    <result column="trade_no" jdbcType="VARCHAR" property="trade_no" />
+    <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="create_time" />
+    <result column="complete_time" jdbcType="TIMESTAMP" property="complete_time" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="payer_acc_no" jdbcType="VARCHAR" property="payer_acc_no" />
+    <result column="payer_acc_name" jdbcType="VARCHAR" property="payer_acc_name" />
+    <result column="payee_acc_no" jdbcType="VARCHAR" property="payee_acc_no" />
+    <result column="payee_acc_name" jdbcType="VARCHAR" property="payee_acc_name" />
+    <result column="payee_acc_type" jdbcType="VARCHAR" property="payee_acc_type" />
+    <result column="payee_cert_type" jdbcType="VARCHAR" property="payee_cert_type" />
+    <result column="payee_cert_no" jdbcType="VARCHAR" property="payee_cert_no" />
+    <result column="payee_phone" jdbcType="VARCHAR" property="payee_phone" />
+    <result column="payee_bank_code" jdbcType="VARCHAR" property="payee_bank_code" />
+    <result column="payee_bank_name" jdbcType="VARCHAR" property="payee_bank_name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="channel_id" jdbcType="VARCHAR" property="channel_id" />
+    <result column="channel_trade_no" jdbcType="VARCHAR" property="channel_trade_no" />
+  </resultMap>
+</mapper>

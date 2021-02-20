@@ -43,6 +43,9 @@
     <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
     <hutool.version>5.4.1</hutool.version>
     <jedis.version>3.1.0</jedis.version>
+    <mybatis.generator.configurationFile>
+      src/main/resources/mybatis-generator.xml
+    </mybatis.generator.configurationFile>
   </properties>
 
   <build>
@@ -83,6 +86,24 @@
         <configuration>
           <generateBackupPoms>false</generateBackupPoms>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.mybatis.generator</groupId>
+        <artifactId>mybatis-generator-maven-plugin</artifactId>
+        <version>1.3.6</version>
+        <dependencies>
+          <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector-java.version}</version>
+            <scope>runtime</scope>
+          </dependency>
+          <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+            <version>4.1.5</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
