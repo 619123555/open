@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE generatorConfiguration
-        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <context id="default" targetRuntime="MyBatis3Simple" defaultModelType="flat">
 
@@ -17,11 +17,11 @@
         <property name="endingDelimiter" value="`"/>
 
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-          <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
-          <!--caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true-->
-          <property name="caseSensitive" value="true"/>
-          <property name="forceAnnotation" value="true"/>
-          <property name="lombok" value="Data"/>
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <!--caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true-->
+            <property name="caseSensitive" value="true"/>
+            <property name="forceAnnotation" value="true"/>
+            <property name="lombok" value="Data"/>
         </plugin>
 
         <!-- 生成 JavaBean 对象继承 Serializable 类 -->
@@ -48,13 +48,13 @@
         <!--生成Model类存放位置-->
         <javaModelGenerator targetPackage="com.trans.payment.boss.entity" targetProject="src/main/java">
             <!--<property name="constructorBased" value="false"/>-->
-            <property name="useActualColumnNames" value="true"/>
+            <property name="useActualColumnNames" value="false"/>
             <property name="enableSubPackages" value="true"/>
 
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
             <!-- 给Model添加一个父类 -->
-            <!--<property name="rootClass" value="com.trans.payment.boss.entity.BaseEntity"/>-->
+            <!--<property name="rootClass" value="com.personal.tool.common.entity.BaseEntity"/>-->
         </javaModelGenerator>
 
         <!--生成映射文件存放位置-->
@@ -64,13 +64,12 @@
 
         <!--生成mapper类存放位置-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.trans.payment.boss"
-                             targetProject="src/main/java">
+          targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
         <!--生成对应表及类名 -->
-        <table tableName="tb_message" domainObjectName="MessageDb">
-        <property name="useActualColumnNames" value="true"/>
+        <table tableName="t_payment_order" domainObjectName="PaymentOrder">
         </table>
 
     </context>
