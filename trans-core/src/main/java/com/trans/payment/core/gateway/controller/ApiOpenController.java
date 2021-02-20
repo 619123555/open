@@ -32,7 +32,7 @@ public class ApiOpenController {
     public String post(@RequestHeader HttpHeaders headers, @RequestBody ApiReq apiReq) {
         Long start = System.currentTimeMillis();
         logger.info("参数:{},header:{}", apiReq, headers);
-        ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
+//        ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
         try {
             JSONObject rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
             return rsp.toJSONString();
