@@ -33,8 +33,7 @@ public class PaymentApiServiceImpl extends AbstractApiService {
 
   @Override
   public JSONObject execute(ApiReq apiReq) throws GatewayException {
-    JSONObject paymentReq = JSONObject.parseObject(apiReq.getData(), JSONObject.class);
-    JSONObject data = paymentReq.getJSONObject("data");
+    JSONObject data = JSONObject.parseObject(apiReq.getData(), JSONObject.class);
     logger.info("代付请求参数:{}", data);
 
     JSONObject routeRsp = routeService.execute();
@@ -43,7 +42,7 @@ public class PaymentApiServiceImpl extends AbstractApiService {
     PaymentOrder paymentOrder = new PaymentOrder();
     paymentOrder.setId(IdUtil.simpleUUID());
     paymentOrder.setPayType(PaymentPayTypeEnum.PAYMENT.name());
-    paymentOrder.setTradeNo("");
+    paymentOrder.setTradeNo(IdUtil.simpleUUID());
     paymentOrder.setAmount(new BigDecimal(2));
     paymentOrder.setStatus(TradeStatusEnum.INIT.name());
     paymentOrder.setCreateTime(new Date());
