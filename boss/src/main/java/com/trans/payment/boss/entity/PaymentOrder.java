@@ -1,5 +1,6 @@
 package com.trans.payment.boss.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -32,9 +33,11 @@ public class PaymentOrder implements Serializable {
     private String status;
 
     @Column(name = "create_time")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     private Date createTime;
 
     @Column(name = "complete_time")
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT")
     private Date completeTime;
 
     @Column(name = "currency")

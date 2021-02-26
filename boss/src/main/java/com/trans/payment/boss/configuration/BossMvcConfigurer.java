@@ -41,8 +41,8 @@ public class BossMvcConfigurer extends WebMvcConfigurationSupport {
         ObjectMapper objectMapper = new ObjectMapper();
         SimpleModule simpleModule = new SimpleModule();
         // 序列化将Long转String类型
-        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+//        simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+//        simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
         SimpleModule bigIntegerModule = new SimpleModule();
         bigIntegerModule.addSerializer(BigInteger.class, ToStringSerializer.instance);
         SimpleModule bigDecimalModule = new SimpleModule();
