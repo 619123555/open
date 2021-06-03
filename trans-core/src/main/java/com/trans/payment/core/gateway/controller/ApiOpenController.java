@@ -1,11 +1,11 @@
 package com.trans.payment.core.gateway.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.trans.payment.common.utils.validator.ValidatorUtils;
 import com.trans.payment.core.gateway.entity.ApiReq;
 import com.trans.payment.core.gateway.entity.ApiReq.AddGroup;
 import com.trans.payment.core.gateway.entity.CommonEnum;
 import com.trans.payment.common.exception.GatewayException;
-import com.trans.payment.common.exception.ValidatorUtils;
 import com.trans.payment.core.service.ApiCommonService;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -32,7 +32,7 @@ public class ApiOpenController {
     public String post(@RequestHeader HttpHeaders headers, @RequestBody ApiReq apiReq) {
         Long start = System.currentTimeMillis();
         logger.info("参数:{},header:{}", apiReq, headers);
-//        ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
+        ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
         try {
             JSONObject rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
             return rsp.toJSONString();
