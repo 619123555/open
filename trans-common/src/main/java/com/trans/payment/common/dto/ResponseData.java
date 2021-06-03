@@ -1,14 +1,9 @@
 package com.trans.payment.common.dto;
 
-import com.trans.payment.common.utils.ResultCode;
+import com.trans.payment.common.enums.ResultCode;
 import java.io.Serializable;
 import lombok.Data;
 
-/**
- * web 统一API响应结果封装
- * 使用方式:ResponseData.ok(T)  ResponseData.error(T)
- * @author yangzhongying
- */
 @Data
 public class ResponseData<T> implements Serializable {
 
