@@ -2,6 +2,7 @@ package com.trans.payment.common.utils.validator;
 
 import com.trans.payment.common.dto.ResponseData;
 import com.trans.payment.common.exception.GatewayException;
+import com.trans.payment.common.exception.ParamErrorException;
 import com.trans.payment.common.exception.PreException;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -22,14 +23,13 @@ public class ValidatorUtils {
      * @param groups 待校验的组
      * @return
      */
-    public static ResponseData validateEntity(Object object, Class<?>... groups) throws PreException {
+    public static void validateEntity(Object object, Class<?>... groups) throws PreException {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
         if (!constraintViolations.isEmpty()) {
             ConstraintViolation<Object> constraint =
                 constraintViolations.iterator().next();
-            return ResponseData.error(constraint.getMessage());
+            throw new ParamErrorException((constraint.getMessage()));
         }
-        return ResponseData.ok();
     }
 
 
