@@ -1,6 +1,5 @@
 package com.trans.payment.common.dto;
 
-import com.trans.payment.common.utils.ResultCode;
 import java.io.Serializable;
 import lombok.Data;
 

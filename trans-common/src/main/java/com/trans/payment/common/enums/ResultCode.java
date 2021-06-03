@@ -1,11 +1,6 @@
-package com.trans.payment.common.utils;
+package com.trans.payment.common.enums;
 
 
-/**
- * 响应码枚举，参考HTTP状态码的语义
- *
- * @author yangzhongying
- */
 public enum ResultCode {
   /** 成功 */
   SUCCESS(10000, "成功"),
