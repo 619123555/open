@@ -2,10 +2,10 @@ package com.trans.payment.core.gateway.entity;
 
 import com.trans.payment.common.utils.validator.group.AddGroup;
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 网关通用参数
