@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @description: 余额查询
+ * @description: 代付余额查询
  */
 @Service("trans.payment.query")
 public class PaymentBalanceQueryApiServiceImpl extends AbstractApiService {
