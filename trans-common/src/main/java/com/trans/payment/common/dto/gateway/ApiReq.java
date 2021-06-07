@@ -1,4 +1,4 @@
-package com.trans.payment.core.gateway.entity;
+package com.trans.payment.common.dto.gateway;
 
 import com.trans.payment.common.utils.validator.group.AddGroup;
 import java.io.Serializable;

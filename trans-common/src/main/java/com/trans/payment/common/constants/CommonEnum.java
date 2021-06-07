@@ -1,4 +1,4 @@
-package com.trans.payment.core.gateway.entity;
+package com.trans.payment.common.constants;
 
 /**
  * 网关公共响应消息枚举
@@ -9,7 +9,7 @@ public enum CommonEnum {
     ISV_MISSING_METHOD("20000", "ISV.MISSING-METHOD", "缺少方法名参数"),
     ISV_AUTH_RSA_TIME_OUT("20000", "ISV.AUTH-RSA-TIME-OUT", "访问秘钥已过期"),
     ISV_MISSING_SIGNATURE_TYPE("20000", "ISV.MISSING-SIGNATURE-TYPE", "检查请求参数，缺少signType参数"),
-    ISV_MISSING_APP_ID("20000", "ISV.MISSING-APP-ID", "检查请求参数，缺少appId参数"),
+    ISV_MISSING_ORGANIZATION_ID("20000", "ISV.MISSING-ORGANIZATION-ID", "检查请求参数，缺少organizationId参数"),
     ISV_MISSING_COMMON_PARAMS("20000", "ISV.MISSING-COMMON-PARAMS", "公共参数不能为空"),
     ISV_MISSING_TIMESTAMP("20000", "ISV.MISSING-TIMESTAMP", "检查请求参数，缺少timestamp参数"),
     ISV_MISSING_VERSION("20000", "ISV.MISSING-VERSION", "缺少版本参数"),

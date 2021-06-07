@@ -2,7 +2,7 @@ package com.trans.payment.core.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.trans.payment.common.exception.GatewayException;
-import com.trans.payment.core.gateway.entity.ApiReq;
+import com.trans.payment.common.dto.gateway.ApiReq;
 import com.trans.payment.core.mapper.PaymentOrderMapper;
 import com.trans.payment.core.service.AbstractApiService;
 import com.trans.payment.core.service.RouteService;

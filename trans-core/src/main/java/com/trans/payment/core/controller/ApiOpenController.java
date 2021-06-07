@@ -1,10 +1,10 @@
-package com.trans.payment.core.gateway.controller;
+package com.trans.payment.core.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.trans.payment.common.utils.validator.ValidatorUtils;
 import com.trans.payment.common.utils.validator.group.AddGroup;
-import com.trans.payment.core.gateway.entity.ApiReq;
-import com.trans.payment.core.gateway.entity.CommonEnum;
+import com.trans.payment.common.dto.gateway.ApiReq;
+import com.trans.payment.common.constants.CommonEnum;
 import com.trans.payment.common.exception.GatewayException;
 import com.trans.payment.core.service.ApiCommonService;
 import com.trans.payment.core.service.NotifyService;
@@ -31,7 +31,7 @@ public class ApiOpenController {
 
     @Autowired
     Map<String, ApiCommonService> apiMaps;
-    @Autowired
+//    @Autowired
     Map<String, NotifyService> channelNotifyMap;
 
     @PostMapping("/gateway")

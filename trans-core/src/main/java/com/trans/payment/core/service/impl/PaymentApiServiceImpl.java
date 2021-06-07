@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.trans.payment.common.enums.PaymentPayTypeEnum;
 import com.trans.payment.common.enums.TradeStatusEnum;
 import com.trans.payment.core.entity.PaymentOrder;
-import com.trans.payment.core.gateway.entity.ApiReq;
+import com.trans.payment.common.dto.gateway.ApiReq;
 import com.trans.payment.common.exception.GatewayException;
 import com.trans.payment.core.mapper.PaymentOrderMapper;
 import com.trans.payment.core.service.AbstractApiService;

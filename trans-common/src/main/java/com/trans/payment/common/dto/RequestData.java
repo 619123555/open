@@ -4,11 +4,6 @@ import java.io.Serializable;
 import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
-/**
- * 统一请求信息入口.
- *
- * @author yangzhongying
- */
 public class RequestData implements Serializable {
 
     private static final long serialVersionUID = -8008271239921313489L;
@@ -20,7 +15,7 @@ public class RequestData implements Serializable {
     @NotEmpty(message = "charset必传")
     @Length(min = 1, max = 5, message = "charset 长度错误")
     private String charset;
-    
+
     @Length(min = 1, max = 2000, message = "sign 长度错误")
     private String sign;
 
