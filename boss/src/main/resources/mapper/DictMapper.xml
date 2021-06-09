@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.DictMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Dict">
+<mapper namespace="com.open.boss.mapper.DictMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.Dict">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="value" jdbcType="VARCHAR" property="value" />
     <result column="label" jdbcType="VARCHAR" property="label" />
@@ -33,7 +33,7 @@
     JOIN sys_dict_type b
   </sql>
 
-  <select id="get" resultType="com.trans.payment.boss.entity.Dict">
+  <select id="get" resultType="com.open.boss.entity.Dict">
     SELECT
     <include refid="dictColumns"/>
     FROM sys_dict a
@@ -41,7 +41,7 @@
     WHERE a.id = #{id} and a.type = b.value
   </select>
 
-  <select id="findList" resultType="com.trans.payment.boss.entity.Dict">
+  <select id="findList" resultType="com.open.boss.entity.Dict">
     SELECT
     <include refid="dictColumns"/>
     FROM sys_dict a
@@ -61,7 +61,7 @@
     ORDER BY a.type, a.sort, a.oper_time DESC
   </select>
 
-  <select id="findAllList" resultType="com.trans.payment.boss.entity.Dict">
+  <select id="findAllList" resultType="com.open.boss.entity.Dict">
     SELECT
     <include refid="dictColumns"/>
     FROM sys_dict a
@@ -78,7 +78,7 @@
     WHERE id = #{id}
   </update>
 
-  <update id="updateStatusById" parameterType="com.trans.payment.boss.entity.Dict">
+  <update id="updateStatusById" parameterType="com.open.boss.entity.Dict">
     UPDATE sys_dict SET
     operator = #{operator.id},
     oper_time = #{operTime},
@@ -88,7 +88,7 @@
 
 
   <!--根据过滤机构查询数据-->
-  <select id="selectDictByOrgId" resultType="com.trans.payment.boss.entity.Dict">
+  <select id="selectDictByOrgId" resultType="com.open.boss.entity.Dict">
     select * from (select
     <include refid="dictColumns"/>from sys_dict a JOIN sys_dict_type b
     where a.type = b.value
@@ -169,7 +169,7 @@
   </select>
 
   <!--根据渠道号查询渠道名称-->
-  <select id="findDictByType" resultType="com.trans.payment.boss.entity.Dict" parameterType="java.util.List">
+  <select id="findDictByType" resultType="com.open.boss.entity.Dict" parameterType="java.util.List">
     SELECT
     <include refid="dictColumns"/>
     FROM sys_dict a
@@ -187,7 +187,7 @@
   </update>
 
   <!--根据字典类型值查询字典对象-->
-  <select id="findDict" resultType="com.trans.payment.boss.entity.Dict">
+  <select id="findDict" resultType="com.open.boss.entity.Dict">
     SELECT
     <include refid="dictColumns"/>
     FROM sys_dict a
@@ -257,8 +257,8 @@
     </foreach>
     ORDER BY convert(dictLabel using gbk)
   </select>
-  <select id="selectDictByObj" resultType="com.trans.payment.boss.entity.Dict"
-    parameterType="com.trans.payment.boss.entity.Dict">
+  <select id="selectDictByObj" resultType="com.open.boss.entity.Dict"
+    parameterType="com.open.boss.entity.Dict">
     select * from sys_dict where
     1=1
     <if test="value !=null and value !='' ">

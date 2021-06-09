@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.User">
+<mapper namespace="com.open.boss.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.User">
     <!--
       WARNING - @mbg.generated
     -->
@@ -83,8 +83,8 @@
   </sql>
 
   <!-- 分页查询用户信息 -->
-  <select id="findList" resultType="com.trans.payment.boss.entity.User"
-    parameterType="com.trans.payment.boss.entity.User">
+  <select id="findList" resultType="com.open.boss.entity.User"
+    parameterType="com.open.boss.entity.User">
     SELECT
     <include refid="userColumns"/>
     FROM sys_user a
@@ -129,7 +129,7 @@
   </insert>
 
 
-  <select id="getUserMaxNo" resultType="com.trans.payment.boss.entity.UserOthProObj">
+  <select id="getUserMaxNo" resultType="com.open.boss.entity.UserOthProObj">
     select IFNULL(MAX(CAST(substring(no,3) AS signed )),0) as "maxNo" from sys_user where
     1=1
     <if test="userNOStr != null and userNOStr != ''">
@@ -138,8 +138,8 @@
   </select>
 
   <!--根据角色 查询该角色下的分配用户 -->
-  <select id="showSelectedRoleUser" resultType="com.trans.payment.boss.entity.User"
-    parameterType="com.trans.payment.boss.entity.Role">
+  <select id="showSelectedRoleUser" resultType="com.open.boss.entity.User"
+    parameterType="com.open.boss.entity.Role">
     select s.name,s.no,s.id from sys_user s,sys_user_role u where 1=1
     and s.id=u.user_id
     and role_id=#{id}
@@ -147,7 +147,7 @@
 
 
   <!-- 获取除机构下用户 -->
-  <select id="selectOrgUser" resultType="com.trans.payment.boss.entity.User">
+  <select id="selectOrgUser" resultType="com.open.boss.entity.User">
     select group_concat(b.id separator ',') as "userIds" from sys_user_role a INNER JOIN sys_user b on(a.user_id=b.id)
     where 1=1
     and b.office_id in(select d.id from sys_organization d,sys_organization e where 1=1
@@ -162,8 +162,8 @@
   </delete>
 
   <!-- 根据登录名、邮箱、手机查询用户 yzy-->
-  <select id="getByNoOrMobileOrEmail" resultType="com.trans.payment.boss.entity.User"
-    parameterType="com.trans.payment.boss.entity.User">
+  <select id="getByNoOrMobileOrEmail" resultType="com.open.boss.entity.User"
+    parameterType="com.open.boss.entity.User">
     SELECT
     <include refid="userColumns"/>
     FROM sys_user a
@@ -172,7 +172,7 @@
   </select>
 
   <!-- 定制根据用户编号查询用户列表信息 yzy-->
-  <select id="findUserInfoList" resultType="com.trans.payment.boss.entity.User" parameterType="java.util.List">
+  <select id="findUserInfoList" resultType="com.open.boss.entity.User" parameterType="java.util.List">
     SELECT
     <include refid="userColumns"/>
     FROM sys_user a
@@ -184,8 +184,8 @@
   </select>
 
   <!-- 根据登录名查询用户 -->
-  <select id="getByNo" resultType="com.trans.payment.boss.entity.User"
-    parameterType="com.trans.payment.boss.entity.User">
+  <select id="getByNo" resultType="com.open.boss.entity.User"
+    parameterType="com.open.boss.entity.User">
     SELECT
     <include refid="userColumns"/>
     FROM sys_user a
@@ -194,7 +194,7 @@
   </select>
 
 
-  <select id="login" parameterType="java.lang.String" resultType="com.trans.payment.boss.entity.User">
+  <select id="login" parameterType="java.lang.String" resultType="com.open.boss.entity.User">
     select * from sys_user where email  = #{email}
   </select>
 
@@ -221,11 +221,11 @@
     DELETE FROM sys_user_role WHERE user_id = #{userId} AND role_id = #{roleId}
   </delete>
 
-  <select id="selectUserExistByEmailOrMobile" parameterType="com.trans.payment.boss.entity.User" resultType="Integer">
+  <select id="selectUserExistByEmailOrMobile" parameterType="com.open.boss.entity.User" resultType="Integer">
     SELECT count(*) FROM sys_user where (email = #{email} OR mobile = #{mobile})
   </select>
 
-  <select id="loginByMobile" parameterType="java.lang.String" resultType="com.trans.payment.boss.entity.User">
+  <select id="loginByMobile" parameterType="java.lang.String" resultType="com.open.boss.entity.User">
     select * from sys_user where mobile  = #{mobile}
   </select>
 

@@ -11,18 +11,19 @@
     <relativePath/>
   </parent>
 
-  <groupId>com.trans.payment</groupId>
-  <artifactId>payment</artifactId>
+  <groupId>com.open</groupId>
+  <artifactId>trans</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <description>交易平台</description>
+  <description>开放平台</description>
   <inceptionYear>2021</inceptionYear>
 
   <modules>
-    <module>trans-common</module>
-    <module>trans-core</module>
+    <module>open-common</module>
+    <module>open-gateway</module>
     <module>boss</module>
+    <module>demo</module>
   </modules>
 
   <properties>
