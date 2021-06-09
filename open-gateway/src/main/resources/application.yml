@@ -45,9 +45,27 @@ spring:
   application:
     name: gateway
   redis:
+    database: 0
     host: 39.97.101.65
     port: 6379
     password: privateTest
+    timeout: 10000
+    ssl: false
+    jedis:
+      pool:
+        min-idle: 600
+        max-active: 1000
+        max-wait: 10000
+        max-idle: 800
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: 30
+        max-idle: 300
+        min-idle: 100
+      shutdown-timeout: 100
+    redisson:
+      file: classpath:redisson/redisson.yml
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:

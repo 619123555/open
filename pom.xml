@@ -44,6 +44,7 @@
     <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
     <hutool.version>5.4.1</hutool.version>
     <jedis.version>3.1.0</jedis.version>
+    <redisson.version>3.15.6</redisson.version>
     <mybatis.generator.configurationFile>
       src/main/resources/mybatis-generator.xml
     </mybatis.generator.configurationFile>

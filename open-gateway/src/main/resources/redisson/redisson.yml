@@ -1,0 +1,20 @@
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 3000
+  retryAttempts: 3
+  retryInterval: 1500
+  password: bbc123
+  subscriptionsPerConnection: 5
+  clientName: gateway
+  address: redis://8.131.95.12:6379
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 1
+  connectionMinimumIdleSize: 4
+  connectionPoolSize: 4
+  database: 0
+  dnsMonitoringInterval: 10000
+threads: 0
+nettyThreads: 0
+codec: !<org.redisson.codec.JsonJacksonCodec> {}
+transportMode: NIO
