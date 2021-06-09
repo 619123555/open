@@ -7,7 +7,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.open"})
-@MapperScan(basePackages = {"com.open.boss.*.mapper"})
+@MapperScan(basePackages = {"com.open.boss.mapper"})
 public class BossApplication {
 
   public static void main(String[] args) {
