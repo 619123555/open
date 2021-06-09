@@ -48,6 +48,8 @@ spring:
     host: 39.97.101.65
     port: 6379
     password: privateTest
+  redisson:
+    file: classpath:redisson/redisson.yml
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
