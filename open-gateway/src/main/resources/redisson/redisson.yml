@@ -4,10 +4,10 @@ singleServerConfig:
   timeout: 3000
   retryAttempts: 3
   retryInterval: 1500
-  password: bbc123
+  password: privateTest
   subscriptionsPerConnection: 5
   clientName: gateway
-  address: redis://8.131.95.12:6379
+  address: redis://39.97.101.65:6379
   subscriptionConnectionMinimumIdleSize: 1
   subscriptionConnectionPoolSize: 1
   connectionMinimumIdleSize: 4
