@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.OrganizationMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Organization">
+<mapper namespace="com.open.boss.mapper.OrganizationMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.Organization">
     <!--
       WARNING - @mbg.generated
     -->
@@ -65,7 +65,7 @@
     LEFT JOIN sys_user dp ON dp.id = a.deputy_person
   </sql>
 
-  <select id="findByParentIdsLikeApi" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="findByParentIdsLikeApi" resultType="com.open.boss.entity.Organization">
     SELECT a.id as "id",a.parent_id AS "parentId",a.name AS "name",a.code AS "code",a.type AS "type",a.grade AS "grade"
     FROM sys_organization a
     <include refid="officeJoins"/>
@@ -73,7 +73,7 @@
     ORDER BY a.sort
   </select>
 
-  <select id="findByParentIdsLike" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="findByParentIdsLike" resultType="com.open.boss.entity.Organization">
     SELECT
     <include refid="officeColumns"/>
     FROM sys_organization a
@@ -83,8 +83,8 @@
   </select>
 
 
-  <select id="getOrgByNo" resultType="com.trans.payment.boss.entity.Organization"
-    parameterType="com.trans.payment.boss.entity.Organization">
+  <select id="getOrgByNo" resultType="com.open.boss.entity.Organization"
+    parameterType="com.open.boss.entity.Organization">
     SELECT
     <include refid="officeColumns"/>
     FROM sys_organization a
@@ -92,12 +92,12 @@
     WHERE a.code = #{code} AND a.status = '0'
   </select>
 
-  <select id="getOrgMaxID" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="getOrgMaxID" resultType="com.open.boss.entity.Organization">
     SELECT MAX(cast(s.id as signed)) as "maxId" FROM sys_organization s
   </select>
 
   <!--根据机构简称查询-->
-  <select id="getOrgBySimpleCode" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="getOrgBySimpleCode" resultType="com.open.boss.entity.Organization">
     SELECT * FROM sys_organization a
     WHERE a.simple_code = #{simpleCode}
   </select>
@@ -118,7 +118,7 @@
   </select>
 
 
-  <select id="getNextOrganization" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="getNextOrganization" resultType="com.open.boss.entity.Organization">
     SELECT * FROM sys_organization a
     WHERE a.parent_id = #{parentId} and a.sort ${opt} #{sort} and status =1 ORDER BY a.sort ${sqlOrderBy} limit 1
   </select>
@@ -130,13 +130,13 @@
   </update>
 
 
-  <select id="findOrgList" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="findOrgList" resultType="com.open.boss.entity.Organization">
     select t.id AS "id",t.name AS "name",t.code AS "code" from sys_organization t
     where t.parent_id = #{parentIDStr} and t.status ='1'
   </select>
 
   <!--根据渠道机构号,获取对应的渠道信息 -->
-  <select id="findmanageChannelList" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="findmanageChannelList" resultType="com.open.boss.entity.Organization">
     SELECT
     a.id,
     a.parent_id AS "parent.id",
@@ -161,7 +161,7 @@
   </select>
 
   <!--根据机构编码获取机构信息-->
-  <select id="getOrganizationByCode" resultType="com.trans.payment.boss.entity.Organization">
+  <select id="getOrganizationByCode" resultType="com.open.boss.entity.Organization">
     SELECT
     *
     FROM sys_organization a

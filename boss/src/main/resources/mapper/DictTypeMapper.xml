@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.DictTypeMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.DictType">
+<mapper namespace="com.open.boss.mapper.DictTypeMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.DictType">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="label" jdbcType="VARCHAR" property="label" />
     <result column="value" jdbcType="VARCHAR" property="value" />
@@ -32,7 +32,7 @@
   <sql id="sysDictTypeJoins">
   </sql>
 
-  <select id="get" resultType="com.trans.payment.boss.entity.DictType">
+  <select id="get" resultType="com.open.boss.entity.DictType">
     SELECT
     <include refid="sysDictTypeColumns"/>
     FROM sys_dict_type a
@@ -40,7 +40,7 @@
     WHERE a.id = #{id}
   </select>
 
-  <select id="findList" resultType="com.trans.payment.boss.entity.DictType">
+  <select id="findList" resultType="com.open.boss.entity.DictType">
     SELECT
     <include refid="sysDictTypeColumns"/>
     FROM sys_dict_type a
@@ -59,7 +59,7 @@
     </where>
   </select>
 
-  <select id="findAllList" resultType="com.trans.payment.boss.entity.DictType">
+  <select id="findAllList" resultType="com.open.boss.entity.DictType">
     SELECT
     <include refid="sysDictTypeColumns"/>
     FROM sys_dict_type a
@@ -77,7 +77,7 @@
     WHERE id = #{id}
   </update>
 
-  <select id="getByDictType" resultType="com.trans.payment.boss.entity.DictType">
+  <select id="getByDictType" resultType="com.open.boss.entity.DictType">
     SELECT
     <include refid="sysDictTypeColumns"/>
     FROM sys_dict_type a
@@ -93,7 +93,7 @@
   </update>
 
   <!-- 配置属性值时，查询全部字典项 -->
-  <select id="getDictAllList" resultType="com.trans.payment.boss.entity.DictType">
+  <select id="getDictAllList" resultType="com.open.boss.entity.DictType">
     select value,label,scope from sys_dict_type where status = '1'
   </select>
 </mapper>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.ConfMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Conf">
+<mapper namespace="com.open.boss.mapper.ConfMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.Conf">
     <id column="id" jdbcType="BIGINT" property="id"/>
     <result column="conf_key" jdbcType="VARCHAR" property="confKey"/>
     <result column="scope" jdbcType="VARCHAR" property="scope"/>
@@ -33,7 +33,7 @@
   </select>
 
   <!-- 删除-->
-  <update id="deleteConf" parameterType="com.trans.payment.boss.entity.Conf">
+  <update id="deleteConf" parameterType="com.open.boss.entity.Conf">
     UPDATE sys_config SET status = #{status} WHERE id = #{id}
   </update>
 
@@ -43,7 +43,7 @@
   </update>
 
   <!-- 根据主键查询 -->
-  <select id="findConfigByKey" resultType="com.trans.payment.boss.entity.Conf">
+  <select id="findConfigByKey" resultType="com.open.boss.entity.Conf">
     SELECT id AS "id", conf_key, conf_value, scope AS "scope"
     FROM sys_config
     WHERE

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.MenuMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Menu">
+<mapper namespace="com.open.boss.mapper.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.Menu">
     <!--
       WARNING - @mbg.generated
     -->
@@ -46,11 +46,11 @@
     p.name AS "parent.name"
   </sql>
 
-  <select id="selectMenuList" resultMap="BaseResultMap" parameterType="com.trans.payment.boss.entity.Menu">
+  <select id="selectMenuList" resultMap="BaseResultMap" parameterType="com.open.boss.entity.Menu">
     select t.* from sys_menu t where status = #{status} ORDER BY t.sort ASC
   </select>
 
-  <select id="selectParentList" resultType="com.trans.payment.boss.entity.Menu">
+  <select id="selectParentList" resultType="com.open.boss.entity.Menu">
     select
     <include refid="menuColumns"/>
     from sys_menu a,sys_menu p where 1=1
@@ -60,7 +60,7 @@
   </select>
 
 
-  <select id="getUserMenu" resultType="com.trans.payment.boss.entity.Menu">
+  <select id="getUserMenu" resultType="com.open.boss.entity.Menu">
     SELECT *
     FROM sys_menu a
     WHERE a.id IN(
@@ -83,7 +83,7 @@
     WHERE id = #{id}
   </update>
 
-  <select id="findByParentIdsLike" resultType="com.trans.payment.boss.entity.Menu">
+  <select id="findByParentIdsLike" resultType="com.open.boss.entity.Menu">
     SELECT
     a.id,
     a.parent_id AS "parent.id",
@@ -118,7 +118,7 @@
     LEFT JOIN sys_menu p ON p.id = a.parent_id
   </sql>
 
-  <select id="findAllList" resultType="com.trans.payment.boss.entity.Menu">
+  <select id="findAllList" resultType="com.open.boss.entity.Menu">
     SELECT
     <include refid="menuColumns"/>
     FROM sys_menu a

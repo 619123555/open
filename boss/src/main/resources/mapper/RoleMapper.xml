@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.trans.payment.boss.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="com.trans.payment.boss.entity.Role">
+<mapper namespace="com.open.boss.mapper.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.open.boss.entity.Role">
     <!--
       WARNING - @mbg.generated
     -->
@@ -44,7 +44,7 @@
     a.is_sys AS sysData
   </sql>
 
-  <resultMap id="roleResult" type="com.trans.payment.boss.entity.Role">
+  <resultMap id="roleResult" type="com.open.boss.entity.Role">
     <id property="id" column="id"/>
     <result property="name" column="name"/>
     <result property="code" column="code"/>
@@ -52,12 +52,12 @@
     <result property="dataScope" column="dataScope"/>
     <result property="sysData" column="sysData"/>
     <result property="remarks" column="remarks"/>
-    <collection property="menuList" ofType="com.trans.payment.boss.entity.Menu">
+    <collection property="menuList" ofType="com.open.boss.entity.Menu">
       <id property="id" column="menuList.id"/>
       <id property="parentIds" column="menuList.parentIds"/>
       <id property="systemSign" column="menuList.systemSign"/>
     </collection>
-    <collection property="officeList" ofType="com.trans.payment.boss.entity.Organization">
+    <collection property="officeList" ofType="com.open.boss.entity.Organization">
       <id property="id" column="officeList.id"/>
     </collection>
   </resultMap>
@@ -73,7 +73,7 @@
     ORDER BY create_dt
   </select>
 
-  <select id="getRoleByName" resultType="com.trans.payment.boss.entity.Role" parameterType="java.lang.String">
+  <select id="getRoleByName" resultType="com.open.boss.entity.Role" parameterType="java.lang.String">
     SELECT
     <include refid="roleColumns"/>
     FROM sys_role a
@@ -81,7 +81,7 @@
     WHERE a.name = #{name} AND a.status = '1'
   </select>
 
-  <select id="getRoleByCode" resultType="com.trans.payment.boss.entity.Role">
+  <select id="getRoleByCode" resultType="com.open.boss.entity.Role">
     SELECT
     <include refid="roleColumns"/>
     FROM sys_role a
@@ -102,20 +102,20 @@
   </insert>
 
   <!--根据角色 查询该角色下的分配用户 -->
-  <select id="showSelectedRoleUser" resultType="com.trans.payment.boss.entity.User"
-    parameterType="com.trans.payment.boss.entity.Role">
+  <select id="showSelectedRoleUser" resultType="com.open.boss.entity.User"
+    parameterType="com.open.boss.entity.Role">
     select s.name,s.no,s.id from sys_user s,sys_user_role u where 1=1
     and s.id=u.user_id
     and role_id=#{id}
   </select>
 
   <!-- 查询角色下最大的编号-->
-  <select id="selectRoleMaxCode" resultType="com.trans.payment.boss.entity.Role">
+  <select id="selectRoleMaxCode" resultType="com.open.boss.entity.Role">
     select IFNULL(MAX(CAST(substring(code,3) AS signed)),0) as "code" from sys_role where status='1'
   </select>
 
   <!--根据用户no查询角色列表信息-->
-  <select id="findUserRole" parameterType="java.lang.String" resultType="com.trans.payment.boss.entity.Role">
+  <select id="findUserRole" parameterType="java.lang.String" resultType="com.open.boss.entity.Role">
     SELECT
     r.id AS "id",
     r.code AS "code",
@@ -146,7 +146,7 @@
   </update>
 
 
-  <resultMap id="roleBaseResult" type="com.trans.payment.boss.entity.Role">
+  <resultMap id="roleBaseResult" type="com.open.boss.entity.Role">
     <id property="id" column="id"/>
     <result property="name" column="name"/>
     <result property="code" column="code"/>
@@ -154,7 +154,7 @@
     <result property="dataScope" column="dataScope"/>
     <result property="sysData" column="sysData"/>
     <result property="remarks" column="remarks"/>
-    <association property="menuList" column="menuId" javaType="com.trans.payment.boss.entity.Menu">
+    <association property="menuList" column="menuId" javaType="com.open.boss.entity.Menu">
       <id property="id" column="menuId"/>
       <id property="parentIds" column="parentIds"/>
       <id property="systemSign" column="systemSign"/>
@@ -177,7 +177,7 @@
   </select>
 
 
-  <select id="selectRoleMenu" parameterType="java.lang.String" resultType="com.trans.payment.boss.entity.Menu">
+  <select id="selectRoleMenu" parameterType="java.lang.String" resultType="com.open.boss.entity.Menu">
     select * from sys_menu m
     INNER JOIN sys_role_menu rm ON rm.menu_id = m.id
     where rm.role_id = #{roleId}
