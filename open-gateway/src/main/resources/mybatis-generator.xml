@@ -63,7 +63,7 @@
         </sqlMapGenerator>
 
         <!--生成mapper类存放位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.open.gateway"
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.open.gateway.mapper"
           targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
