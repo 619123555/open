@@ -7,6 +7,8 @@ import com.open.common.exception.GatewayException;
 import com.open.common.utils.validator.ValidatorUtils;
 import com.open.common.utils.validator.group.AddGroup;
 import com.open.gateway.service.ApiService;
+import com.open.gateway.service.impl.GatewayLogService;
+import com.open.gateway.util.RequestUtils;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +28,8 @@ public class OpenController {
     private static final Logger logger = LoggerFactory.getLogger(OpenController.class);
 
     @Autowired
+    GatewayLogService gatewayLogService;
+    @Autowired
     Map<String, ApiService> apiMaps;
 
     @PostMapping("/gateway")
@@ -35,6 +39,7 @@ public class OpenController {
         ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
         try {
             JSONObject rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
+            gatewayLogService.requestLog(apiReq, start, rsp, RequestUtils.getTraceId());
             return rsp.toJSONString();
         } catch (GatewayException e) {
             throw new GatewayException(e.getCode(), e.getMsg());
