@@ -22,13 +22,13 @@
 
   <select id="selectGatewayService" resultMap="BaseResultMap" parameterType="java.lang.String">
     SELECT
-      t.*,s.limits
+      gs.*,gsa.limits
     FROM
-      t_gateway_service t
-    INNER JOIN t_gateway_service_agent s ON t.id = s.service_id
+      t_gateway_service gs
+    INNER JOIN t_gateway_service_agent gsa ON gs.id = gsa.service_id
     WHERE
-      s.organization_id = #{organizationId}
-    AND t.service = #{service}
-    AND t.service_version = #{version}
+      gsa.organization_id = #{organizationId}
+    AND gs.service = #{service}
+    AND gs.service_version = #{version}
   </select>
 </mapper>
