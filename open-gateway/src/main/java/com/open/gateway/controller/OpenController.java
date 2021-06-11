@@ -2,6 +2,7 @@ package com.open.gateway.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.open.common.constants.CommonEnum;
+import com.open.common.dto.ResponseData;
 import com.open.common.dto.gateway.ApiReq;
 import com.open.common.exception.GatewayException;
 import com.open.common.utils.validator.ValidatorUtils;
@@ -38,9 +39,9 @@ public class OpenController extends BaseController{
         logger.info("参数:{},header:{}", apiReq, headers);
         ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
         try {
-            JSONObject rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
-            gatewayLogService.requestLog(apiReq, start, rsp, RequestUtils.getTraceId());
-            return rsp.toJSONString();
+            ResponseData rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
+            gatewayLogService.requestLog(apiReq, start, (JSONObject) JSONObject.toJSON(rsp), RequestUtils.getTraceId());
+            return JSONObject.toJSONString(rsp);
         } catch (GatewayException e) {
             throw new GatewayException(e.getCode(), e.getMsg());
         } catch (Exception e) {
