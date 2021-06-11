@@ -7,11 +7,13 @@
     -->
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
     <result column="pay_type" jdbcType="VARCHAR" property="payType" />
     <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="card_type" jdbcType="INTEGER" property="cardType" />
+    <result column="card_data" jdbcType="VARCHAR" property="cardData" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />

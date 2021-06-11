@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.*;
 import lombok.Data;
+import tk.mybatis.mapper.annotation.Version;
 
 @Data
 @Table(name = "t_card_order")
@@ -14,7 +15,11 @@ public class CardOrder implements Serializable {
     private String id;
 
     @Column(name = "version")
+    @Version
     private Integer version;
+
+    @Column(name = "organization_id")
+    private String organizationId;
 
     @Column(name = "pay_type")
     private String payType;
@@ -33,6 +38,12 @@ public class CardOrder implements Serializable {
      */
     @Column(name = "card_type")
     private Integer cardType;
+
+    /**
+     * 卡数据
+     */
+    @Column(name = "card_data")
+    private String cardData;
 
     @Column(name = "ip")
     private String ip;

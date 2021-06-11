@@ -2,6 +2,7 @@ package com.open.gateway.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.open.common.dto.ResponseData;
 import com.open.common.enums.PaymentPayTypeEnum;
 import com.open.common.enums.TradeStatusEnum;
 import com.open.gateway.entity.PaymentOrder;
@@ -32,7 +33,7 @@ public class PaymentApiServiceImpl extends AbstractApiService {
   PaymentOrderMapper paymentOrderMapper;
 
   @Override
-  public JSONObject execute(ApiReq apiReq) throws GatewayException {
+  public ResponseData execute(ApiReq apiReq) throws GatewayException {
     JSONObject data = JSONObject.parseObject(apiReq.getData(), JSONObject.class);
     logger.info("代付请求参数:{}", data);
 
@@ -66,7 +67,6 @@ public class PaymentApiServiceImpl extends AbstractApiService {
 
 
     logger.info("代付返回参数:{}", "");
-//    return (JSONObject) JSONObject.toJSON("{'code':'000'}");
-    return new JSONObject();
+    return ResponseData.ok();
   }
 }

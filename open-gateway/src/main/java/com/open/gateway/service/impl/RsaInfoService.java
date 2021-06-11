@@ -60,11 +60,11 @@ public class RsaInfoService {
         throw new GatewayException(CommonEnum.ISV_RSA_SECURITY_ERROR.getMsg());
     }
 
-    public GatewayRsa selectGatewayRsa(String agentNo) {
-        String cacheKey = String.format("gateway:rsa:security:%s", agentNo);
+    public GatewayRsa selectGatewayRsa(String organization) {
+        String cacheKey = String.format("gateway:rsa:security:%s", organization);
         GatewayRsa gatewayRsa = this.redisCacheDaoService.read(cacheKey, GatewayRsa.class);
         if (gatewayRsa == null) {
-            gatewayRsa = this.gatewayRsaMapper.selectByPrimaryKey(agentNo);
+            gatewayRsa = this.gatewayRsaMapper.selectByPrimaryKey(organization);
             if (gatewayRsa != null) {
                 this.redisCacheDaoService.save(cacheKey, gatewayRsa);
             }

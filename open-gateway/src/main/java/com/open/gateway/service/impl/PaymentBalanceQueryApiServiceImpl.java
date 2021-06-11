@@ -1,6 +1,7 @@
 package com.open.gateway.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.open.common.dto.ResponseData;
 import com.open.common.exception.GatewayException;
 import com.open.common.dto.gateway.ApiReq;
 import com.open.gateway.mapper.PaymentOrderMapper;
@@ -26,13 +27,12 @@ public class PaymentBalanceQueryApiServiceImpl extends AbstractApiService {
   PaymentOrderMapper paymentOrderMapper;
 
   @Override
-  public JSONObject execute(ApiReq apiReq) throws GatewayException {
+  public ResponseData execute(ApiReq apiReq) throws GatewayException {
     JSONObject data = JSONObject.parseObject(apiReq.getData(), JSONObject.class);
     logger.info("代付余额查询请求参数:{}", data);
 
 
     logger.info("代付余额查询返回参数:{}", "");
-//    return (JSONObject) JSONObject.toJSON("{'code':'000'}");
-    return new JSONObject();
+    return ResponseData.ok();
   }
 }

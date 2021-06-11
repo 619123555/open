@@ -41,8 +41,8 @@ public class OpenController extends BaseController {
         logger.info("参数:{},header:{}", apiReq, headers);
         ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
         try {
-            JSONObject rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
-            return rsp.toJSONString();
+            ResponseData rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
+            return JSONObject.toJSONString(rsp);
         } catch (GatewayException e) {
             throw new GatewayException(e.getCode(), e.getMsg());
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.open.common.dto.ResponseData;
+import com.open.common.dto.gateway.CardTopUpReq;
 import com.open.common.utils.IdGen;
 import com.open.common.utils.Md5Util;
 import com.open.common.utils.StringUtils;
@@ -33,24 +34,24 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
   private final static String queryUrl = "https://query.Heepay.com/Api/CardPayQueryService.aspx";
 
   @Override
-  public ResponseData topUp() {
+  public ResponseData topUp(CardTopUpReq cardTopUpReq) {
     Map<String, Object> req = new HashMap<>(16);
     req.put("agent_id", agentId);
-    req.put("bill_id", IdGen.uuidString());
-    req.put("bill_time", DateUtil.format(new Date(), DatePattern.PURE_DATETIME_FORMAT));
-    req.put("card_type", "");
-    req.put("card_data", "");
-    req.put("pay_amt", "10");
-    req.put("client_ip", "192.168.1.1");
+    req.put("bill_id", cardTopUpReq.getOrderId());
+    req.put("bill_time", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
+    req.put("card_type", cardTopUpReq.getCardType());
+    req.put("card_data", cardTopUpReq.getCardData());
+    req.put("pay_amt", cardTopUpReq.getAmount());
+    req.put("client_ip", cardTopUpReq.getIp());
     req.put("notify_url", notifyUrl);
-    req.put("time_stamp", DateUtil.format(new Date(), DatePattern.PURE_DATETIME_FORMAT));
+    req.put("time_stamp", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
     String waitSign = AesUtilsHelp.sortMap(req);
     waitSign = waitSign + "|||" + md5Key;
     req.put("sign", Md5Util.MD5(waitSign));
 
     String result = HttpUtil.get(topUpUrl, req);
     if("".equals(result)){
-      log.error("汇付宝充值返回空, tradeNo:{}", IdGen.uuidString());
+      log.error("汇付宝充值返回空, tradeNo:{}", cardTopUpReq.getTradeNo());
     }
 
     JSONObject resultJson = JSONObject.parseObject(result);
