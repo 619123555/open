@@ -12,7 +12,7 @@
   </parent>
 
   <groupId>com.open</groupId>
-  <artifactId>trans</artifactId>
+  <artifactId>trans-open</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
