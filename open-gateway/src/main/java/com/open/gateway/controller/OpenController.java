@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
  * 统一入口
  */
 @RestController
-public class OpenController {
+public class OpenController extends BaseController{
 
     private static final Logger logger = LoggerFactory.getLogger(OpenController.class);
 
     @Autowired
     GatewayLogService gatewayLogService;
-    @Autowired
+//    @Autowired
     Map<String, ApiService> apiMaps;
 
     @PostMapping("/gateway")
