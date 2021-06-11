@@ -29,10 +29,10 @@ public class RsaInfoService {
 
     public JSONObject execute(ApiReq api) throws GatewayException {
         String data = api.getData();
-        String cacheKey = String.format("gateway:rsa:security:%s", api.getAppId());
+        String cacheKey = String.format("gateway:rsa:security:%s", api.getOrganizationId());
         logger.info("秘钥缓存:{}", cacheKey);
         RsaSecurityReq rsa = JSONObject.parseObject(data, RsaSecurityReq.class);
-        GatewayRsa gatewayRsa = this.selectGatewayRsa(api.getAppId());
+        GatewayRsa gatewayRsa = this.selectGatewayRsa(api.getOrganizationId());
         if (gatewayRsa == null || rsa == null) {
             throw new GatewayException(CommonEnum.ISV_AUTH_RSA_TIME_OUT.getMsg());
         }

@@ -17,11 +17,11 @@ public class ApiReq implements Serializable {
     private static final long serialVersionUID = -1509461106899464983L;
 
     /**
-     * 代理商编号
+     * 机构编号
      */
     @Length(min = 1, max = 32, message = "ISV.INVALID-PARAMETER", groups = {AddGroup.class})
-    @NotBlank(message = "ISV.MISSING-APP-ID", groups = {AddGroup.class})
-    private String appId;
+    @NotBlank(message = "ISV.MISSING-ORGANIZATION-ID", groups = {AddGroup.class})
+    private String organizationId;
 
     /**
      * 业务方法编码
