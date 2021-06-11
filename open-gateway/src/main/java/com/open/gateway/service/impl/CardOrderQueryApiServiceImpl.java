@@ -3,12 +3,11 @@ package com.open.gateway.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.open.common.dto.ResponseData;
 import com.open.common.dto.gateway.ApiReq;
-import com.open.common.dto.gateway.CardTopUpReq;
+import com.open.common.dto.gateway.CardOrderQueryReq;
 import com.open.common.dto.gateway.CardTopUpResp;
 import com.open.common.enums.ResultCode;
 import com.open.common.enums.TradeStatusEnum;
 import com.open.common.exception.GatewayException;
-import com.open.common.utils.IdGen;
 import com.open.common.utils.validator.ValidatorUtils;
 import com.open.common.utils.validator.group.AddGroup;
 import com.open.gateway.channel.card.CardChannelService;
@@ -16,7 +15,7 @@ import com.open.gateway.entity.CardOrder;
 import com.open.gateway.mapper.CardOrderMapper;
 import com.open.gateway.service.AbstractApiService;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,43 +23,39 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
- * @description: 卡充值
+ * @description: 卡订单查询
  */
-@Service("trans.card.order.topup")
+@Service("trans.card.order.query")
 @Slf4j
-public class CardTopUpApiServiceImpl extends AbstractApiService {
+public class CardOrderQueryApiServiceImpl extends AbstractApiService {
 
   @Autowired
   CardOrderMapper cardOrderMapper;
   @Autowired
-  CardChannelService cardChannelService;
+  Map<String, CardChannelService> cardChannelServiceMap;
 
   @Override
   public ResponseData execute(ApiReq apiReq) throws GatewayException {
-    CardTopUpReq cardTopUpReq = JSONObject.parseObject(apiReq.getData(), CardTopUpReq.class);
-    log.info("卡充值交易请求参数:{}", cardTopUpReq);
-    ValidatorUtils.gatewayValidateEntity(cardTopUpReq, AddGroup.class);
+    CardOrderQueryReq cardOrderQueryReq = JSONObject.parseObject(apiReq.getData(), CardOrderQueryReq.class);
+    log.info("卡充值订单查询请求参数:{}", cardOrderQueryReq);
+    ValidatorUtils.gatewayValidateEntity(cardOrderQueryReq, AddGroup.class);
 
     CardOrder cardOrder = new CardOrder();
-    BeanUtils.copyProperties(cardTopUpReq, cardOrder);
+    cardOrder.setTradeNo(cardOrderQueryReq.getTradeNo());
+    cardOrder = cardOrderMapper.selectOne(cardOrder);
+    log.info("查询到的订单:{}", cardOrder);
+    if(cardOrder == null){
+      return ResponseData.error("订单不存在");
+    }
 
-    cardOrder.setId(IdGen.uuidString());
-    cardOrder.setVersion(1);
-    cardOrder.setOrganizationId(apiReq.getOrganizationId());
-    cardOrder.setStatus(TradeStatusEnum.INIT.name());
-    cardOrder.setChannelId("HFB");
-    cardOrder.setCreateTime(new Date());
-    cardOrderMapper.insert(cardOrder);
+    CardTopUpResp cardTopUpResp = new CardTopUpResp();
+    if(TradeStatusEnum.SUCCESS.name().equals(cardOrder.getStatus())){
+      BeanUtils.copyProperties(cardOrder, cardTopUpResp);
+      return ResponseData.ok(cardTopUpResp);
+    }
 
-    cardTopUpReq.setOrderId(cardOrder.getId());
-    log.info("卡充值交易请求通道信息: tradeNo:{}, result:{}", cardOrder.getTradeNo(), cardTopUpReq);
-    ResponseData result = cardChannelService.topUp(cardTopUpReq);
-    log.info("卡充值交易通道返回信息: tradeNo:{}, result:{}", cardOrder.getTradeNo(), result);
-
+    ResponseData result = cardChannelServiceMap.get(cardOrder.getChannelId()).query(cardOrder.getTradeNo());
     if(!ResultCode.SUCCESS.equals(result.getCode())){
-      cardOrder.setStatus(TradeStatusEnum.FAIL.name());
-      cardOrder.setRemark(result.getMsg());
-      cardOrderMapper.updateByPrimaryKey(cardOrder);
       return ResponseData.error(result.getMsg());
     }
 
@@ -71,8 +66,7 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     cardOrder.setSettleAmount(StringUtils.isEmpty(resultData.getString("card_settle_amt")) ? null :new BigDecimal(resultData.getString("card_settle_amt")));
     cardOrderMapper.updateByPrimaryKey(cardOrder);
 
-    CardTopUpResp cardTopUpResp = new CardTopUpResp();
     BeanUtils.copyProperties(cardOrder, cardTopUpResp);
-    return ResponseData.ok();
+    return ResponseData.ok(cardTopUpResp);
   }
 }
