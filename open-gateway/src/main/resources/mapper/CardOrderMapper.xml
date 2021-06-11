@@ -11,6 +11,8 @@
     <result column="pay_type" jdbcType="VARCHAR" property="payType" />
     <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
     <result column="amount" jdbcType="DECIMAL" property="amount" />
+    <result column="real_amount" jdbcType="DECIMAL" property="realAmount" />
+    <result column="settle_amount" jdbcType="DECIMAL" property="settleAmount" />
     <result column="status" jdbcType="VARCHAR" property="status" />
     <result column="card_type" jdbcType="INTEGER" property="cardType" />
     <result column="card_data" jdbcType="VARCHAR" property="cardData" />

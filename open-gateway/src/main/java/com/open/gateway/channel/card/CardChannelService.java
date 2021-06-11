@@ -12,5 +12,5 @@ public interface CardChannelService {
   ResponseData topUp(CardTopUpReq cardTopUpReq);
 
   // 查询
-  ResponseData query();
+  ResponseData query(String tradeNo);
 }
