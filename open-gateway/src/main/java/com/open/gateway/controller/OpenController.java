@@ -1,6 +1,8 @@
 package com.open.gateway.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.open.common.dto.ResponseData;
+import com.open.common.enums.ResultCode;
 import com.open.common.utils.validator.ValidatorUtils;
 import com.open.common.utils.validator.group.AddGroup;
 import com.open.common.dto.gateway.ApiReq;
@@ -52,9 +54,9 @@ public class OpenController extends BaseController {
     public String notify(@RequestHeader HttpHeaders headers, HttpServletRequest request,
         @PathVariable("channelId") String channelId) {
         logger.info("channelId:{},header:{}", channelId, headers);
-        JSONObject rsp = channelNotifyMap.get(channelId).execute(request);
-        if (rsp != null && rsp.containsKey("subCode")) {
-            return rsp.getString("subMsg");
+        ResponseData rsp = channelNotifyMap.get(channelId).execute(request);
+        if (rsp != null && ResultCode.SUCCESS.equals(rsp.getCode())) {
+            return rsp.getData().toString();
         }
         return null;
     }

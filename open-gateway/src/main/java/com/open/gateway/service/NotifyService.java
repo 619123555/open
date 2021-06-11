@@ -1,8 +1,8 @@
 package com.open.gateway.service;
 
-import com.alibaba.fastjson.JSONObject;
+import com.open.common.dto.ResponseData;
 import javax.servlet.http.HttpServletRequest;
 
 public interface NotifyService {
-  JSONObject execute(HttpServletRequest request);
+  ResponseData execute(HttpServletRequest request);
 }

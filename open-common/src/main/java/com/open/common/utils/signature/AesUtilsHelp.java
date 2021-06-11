@@ -38,7 +38,7 @@ public class AesUtilsHelp {
         return (System.currentTimeMillis() / 1000);
     }
 
-    public static String sortMap(Map<String, String> param) {
+    public static String sortMap(Map<String, Object> param) {
         StringBuilder result = new StringBuilder();
         Collection<String> keySet = param.keySet();
         List<String> list = new ArrayList<>(keySet);
@@ -48,7 +48,7 @@ public class AesUtilsHelp {
             if ("symmetricKey".equals(key)) {
                 continue;
             }
-            if (param.get(key) == null || "".equals(param.get(key).trim())) {
+            if (param.get(key) == null || "".equals(param.get(key).toString().trim())) {
                 continue;
             }
             result.append(key).append("=").append(param.get(key)).append("&");
