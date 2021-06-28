@@ -27,12 +27,12 @@ public class PaymentBalanceQueryApiServiceImpl extends AbstractApiService {
   PaymentOrderMapper paymentOrderMapper;
 
   @Override
-  public ResponseData execute(ApiReq apiReq) throws GatewayException {
+  public JSONObject execute(ApiReq apiReq) throws GatewayException {
     JSONObject data = JSONObject.parseObject(apiReq.getData(), JSONObject.class);
     logger.info("代付余额查询请求参数:{}", data);
 
 
     logger.info("代付余额查询返回参数:{}", "");
-    return ResponseData.ok();
+    return null;
   }
 }

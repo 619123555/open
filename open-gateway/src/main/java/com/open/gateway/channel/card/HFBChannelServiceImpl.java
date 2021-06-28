@@ -51,12 +51,12 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
     req.put("card_type", cardTopUpReq.getCardType());
     req.put("card_data", cardTopUpReq.getCardData());
     req.put("pay_amt", cardTopUpReq.getAmount());
-    req.put("client_ip", cardTopUpReq.getIp());
     req.put("notify_url", host + notifyUrl);
     req.put("time_stamp", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
     String waitSign = AesUtilsHelp.sortMap(req);
     waitSign = waitSign + "|||" + md5Key;
     req.put("sign", Md5Util.MD5(waitSign));
+    req.put("client_ip", cardTopUpReq.getIp());
 
     log.info("汇付宝充值请求信息:{}", req);
     String result = HttpUtil.get(topUpUrl, req);

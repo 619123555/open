@@ -14,7 +14,7 @@ public class CardTopUpReq implements Serializable {
   @NotBlank(message = "订单号不允许为空", groups = {AddGroup.class})
   private String tradeNo;
   @NotBlank(message = "充值总金额不允许为空", groups = {AddGroup.class})
-  private BigDecimal amount;
+  private Integer amount;
   @NotBlank(message = "卡类型不允许为空", groups = {AddGroup.class})
   private Integer cardType;
   @NotBlank(message = "卡数据不允许为空", groups = {AddGroup.class})
@@ -23,8 +23,8 @@ public class CardTopUpReq implements Serializable {
   private String ip;
   private String notifyUrl;
   private String remark;
+  @NotBlank(message = "提交时间不允许为空", groups = {AddGroup.class})
   private Date createTime;
-  private String channelTradeNo;
 
   private static final long serialVersionUID = 1L;
 }

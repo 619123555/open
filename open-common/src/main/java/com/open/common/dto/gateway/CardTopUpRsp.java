@@ -5,11 +5,13 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class CardTopUpResp implements Serializable {
+public class CardTopUpRsp implements Serializable {
+  private Integer subCode;
+  private String subMsg;
   private String orderId;
   private String tradeNo;
   private String status;
-  private BigDecimal amount;
+  private Integer amount;
   private BigDecimal realAmount;
   private BigDecimal settleAmount;
   private Integer cardType;

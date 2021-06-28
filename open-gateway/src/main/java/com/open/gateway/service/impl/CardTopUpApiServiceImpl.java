@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.open.common.dto.ResponseData;
 import com.open.common.dto.gateway.ApiReq;
 import com.open.common.dto.gateway.CardTopUpReq;
-import com.open.common.dto.gateway.CardTopUpResp;
+import com.open.common.dto.gateway.CardTopUpRsp;
 import com.open.common.enums.ResultCode;
 import com.open.common.enums.TradeStatusEnum;
 import com.open.common.exception.GatewayException;
@@ -36,10 +36,12 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
   CardChannelService cardChannelService;
 
   @Override
-  public ResponseData execute(ApiReq apiReq) throws GatewayException {
+  public JSONObject execute(ApiReq apiReq) throws GatewayException {
     CardTopUpReq cardTopUpReq = JSONObject.parseObject(apiReq.getData(), CardTopUpReq.class);
     log.info("卡充值交易请求参数:{}", cardTopUpReq);
     ValidatorUtils.gatewayValidateEntity(cardTopUpReq, AddGroup.class);
+
+    CardTopUpRsp cardTopUpRsp = new CardTopUpRsp();
 
     CardOrder cardOrder = new CardOrder();
     BeanUtils.copyProperties(cardTopUpReq, cardOrder);
@@ -61,7 +63,10 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
       cardOrder.setStatus(TradeStatusEnum.FAIL.name());
       cardOrder.setRemark(result.getMsg());
       cardOrderMapper.updateByPrimaryKey(cardOrder);
-      return ResponseData.error(result.getMsg());
+
+      cardTopUpRsp.setSubCode(result.getCode());
+      cardTopUpRsp.setSubMsg(result.getMsg());
+      return (JSONObject) JSONObject.toJSON(cardTopUpRsp);
     }
 
     JSONObject resultData = (JSONObject) JSONObject.toJSON(result.getData());
@@ -71,8 +76,10 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     cardOrder.setSettleAmount(StringUtils.isEmpty(resultData.getString("card_settle_amt")) ? null :new BigDecimal(resultData.getString("card_settle_amt")));
     cardOrderMapper.updateByPrimaryKey(cardOrder);
 
-    CardTopUpResp cardTopUpResp = new CardTopUpResp();
-    BeanUtils.copyProperties(cardOrder, cardTopUpResp);
-    return ResponseData.ok();
+
+    BeanUtils.copyProperties(cardOrder, cardTopUpRsp);
+    cardTopUpRsp.setSubCode(ResultCode.SUCCESS.getCode());
+    cardTopUpRsp.setSubMsg(ResultCode.SUCCESS.getMsg());
+    return (JSONObject) JSONObject.toJSON(cardTopUpRsp);
   }
 }

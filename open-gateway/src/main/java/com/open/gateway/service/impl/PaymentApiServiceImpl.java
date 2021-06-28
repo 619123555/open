@@ -33,7 +33,7 @@ public class PaymentApiServiceImpl extends AbstractApiService {
   PaymentOrderMapper paymentOrderMapper;
 
   @Override
-  public ResponseData execute(ApiReq apiReq) throws GatewayException {
+  public JSONObject execute(ApiReq apiReq) throws GatewayException {
     JSONObject data = JSONObject.parseObject(apiReq.getData(), JSONObject.class);
     logger.info("代付请求参数:{}", data);
 
@@ -67,6 +67,6 @@ public class PaymentApiServiceImpl extends AbstractApiService {
 
 
     logger.info("代付返回参数:{}", "");
-    return ResponseData.ok();
+    return null;
   }
 }

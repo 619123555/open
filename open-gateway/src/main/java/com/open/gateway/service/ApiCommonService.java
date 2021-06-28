@@ -1,9 +1,9 @@
 package com.open.gateway.service;
 
-import com.open.common.dto.ResponseData;
+import com.alibaba.fastjson.JSONObject;
 import com.open.common.dto.gateway.ApiReq;
 import com.open.common.exception.GatewayException;
 
 public interface ApiCommonService {
-    ResponseData execute(ApiReq apiReq) throws GatewayException;
+    JSONObject execute(ApiReq apiReq) throws GatewayException;
 }

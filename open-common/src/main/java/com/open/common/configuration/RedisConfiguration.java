@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Cluster;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +42,7 @@ public class RedisConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty("spring.redis.nodes")
   public JedisCluster getJedisCluster() {
     Cluster cluster = this.redisProperties.getCluster();
     if (cluster == null) {
@@ -67,6 +69,7 @@ public class RedisConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty("spring.redis.nodes")
   public RedisClusterConfiguration getClusterConfig() {
     Cluster cluster = this.redisProperties.getCluster();
     if (cluster == null) {
@@ -84,6 +87,7 @@ public class RedisConfiguration {
   }
 
   @Bean
+  @ConditionalOnProperty("spring.redis.nodes")
   public JedisConnectionFactory redisConnectionFactory(RedisClusterConfiguration cluster) {
     return new JedisConnectionFactory(cluster);
   }
