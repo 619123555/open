@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.open.demo.model.DataRsp;
 import com.alibaba.fastjson.JSON;
+import com.open.demo.utils.CardTypeEnum;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class CardTopUpApi extends ApiAbstract{
     Map<String, String> dataMap = new HashMap<>(16);
     dataMap.put("tradeNo", System.currentTimeMillis() + "");
     dataMap.put("amount", "10");
-    dataMap.put("cardType", "10");
+    dataMap.put("cardType", String.valueOf(CardTypeEnum.JUN_WANG.getKey()));
     dataMap.put("cardData", "18730241020");
     dataMap.put("ip", "192.168.0.5");
     dataMap.put("remark", "");
