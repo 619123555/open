@@ -42,12 +42,12 @@ spring:
       name: boss
   redis:
     cluster:
-      nodes: 39.97.101.65:6380,39.97.101.65:6381,39.97.101.65:6382
+      nodes: 127.0.0.1:6380,127.0.0.1:6381,127.0.0.1:6382
       max-redirects: 3
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://39.97.101.65:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8
+      url: jdbc:mysql://localhost:33306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8
       username: root
       password: privateTest
