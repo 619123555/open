@@ -8,11 +8,11 @@ public class Main {
 
   public static void main(String[] args) {
     // 充值
-//    ApiAbstract apiAbstract = new CardTopUpApi();
-//    apiAbstract.executor();
+    ApiAbstract apiAbstract = new CardTopUpApi();
+    apiAbstract.executor();
 
     // 充值查询
-    ApiAbstract apiAbstract = new CardOrderQueryApi();
-    apiAbstract.executor();
+//    ApiAbstract apiAbstract = new CardOrderQueryApi();
+//    apiAbstract.executor();
   }
 }
