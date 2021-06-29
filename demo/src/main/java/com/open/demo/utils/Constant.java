@@ -3,7 +3,7 @@ package com.open.demo.utils;
 import javax.print.DocFlavor.STRING;
 
 public class Constant {
-  public final static String GATEWAY_URL = "http://47.97.219.169/gateway";
+  public final static String GATEWAY_URL = "http://localhost:8090/gateway";
   public final static String ORGANIZATION_ID = "test";
   public final static String SIGN_TYPE = "RSA";
   public final static String VERSION = "1.0";

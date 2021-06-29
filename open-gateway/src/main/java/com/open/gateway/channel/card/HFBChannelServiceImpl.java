@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.open.common.dto.ResponseData;
 import com.open.common.dto.gateway.CardTopUpReq;
 import com.open.common.enums.TradeStatusEnum;
+import com.open.common.utils.IdGen;
 import com.open.common.utils.Md5Util;
 import com.open.common.utils.StringUtils;
 import com.open.common.utils.signature.AesUtilsHelp;
@@ -17,11 +18,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import java.security.SecureRandom;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * @description: 汇付宝卡类交易通道
@@ -34,9 +41,10 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
   @Value("${web.host:1}")
   private String host;
 
-  private final static String agentId = "";
+  private final static String agentId = "2130811";
   private final static String notifyUrl = "/notify/HFB";
-  private final static String md5Key = "";
+  private final static String md5Key = "37470DD29E1442ACB882B1AF";
+  private final static String desKey = "2A4855B0ADB3473985A7955E";
   private final static String topUpUrl = "https://pay.Heepay.com/Api/CardPaySubmitService.aspx";
   private final static String queryUrl = "https://query.Heepay.com/Api/CardPayQueryService.aspx";
 
@@ -49,14 +57,24 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
     req.put("bill_id", cardTopUpReq.getOrderId());
     req.put("bill_time", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
     req.put("card_type", cardTopUpReq.getCardType());
-    req.put("card_data", cardTopUpReq.getCardData());
-    req.put("pay_amt", cardTopUpReq.getAmount());
+    req.put("card_data", encodeDES(cardTopUpReq.getCardData()));
     req.put("notify_url", host + notifyUrl);
     req.put("time_stamp", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
-    String waitSign = AesUtilsHelp.sortMap(req);
-    waitSign = waitSign + "|||" + md5Key;
-    req.put("sign", Md5Util.MD5(waitSign));
+    req.put("pay_amt", cardTopUpReq.getAmount());
     req.put("client_ip", cardTopUpReq.getIp());
+    String waitSign = "agent_id=" + req.get("agent_id") + "&bill_id=" + req.get("bill_id") + "&bill_time=" + req.get("bill_time") +
+        "&card_type=" + req.get("card_type") + "&card_data=" + req.get("card_data") +
+        "&pay_amt=" + req.get("pay_amt") + "&notify_url=" + req.get("notify_url") + "&time_stamp=" + req.get("time_stamp");
+    waitSign = waitSign + "|||" + md5Key;
+    req.put("sign", Md5Util.MD5(waitSign).toLowerCase());
+
+    JSONObject goodsDetailJson = new JSONObject();
+    goodsDetailJson.put("id", IdGen.uuidString().substring(0, 5));
+    goodsDetailJson.put("name", "绿林侠盗:亡命之徒传说-充值");
+    goodsDetailJson.put("num", "1");
+    goodsDetailJson.put("price", cardTopUpReq.getAmount());
+    goodsDetailJson.put("url", "端游联盟充值");
+    req.put("goods_detail", goodsDetailJson);
 
     log.info("汇付宝充值请求信息:{}", req);
     String result = HttpUtil.get(topUpUrl, req);
@@ -66,7 +84,7 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
       return ResponseData.error("充值链路异常.");
     }
 
-    JSONObject resultJson = JSONObject.parseObject(result);
+    JSONObject resultJson = stringToJson(result);
     if(!"0".equals(resultJson.getString("ret_code"))){
       return ResponseData.error(resultJson.getString("ret_msg"));
     }
@@ -103,7 +121,7 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
       return ResponseData.error("充值查询链路异常.");
     }
 
-    JSONObject resultJson = JSONObject.parseObject(result);
+    JSONObject resultJson = stringToJson(result);
     if(!"0".equals(resultJson.getString("ret_code"))){
       return ResponseData.error(resultJson.getString("ret_msg"));
     }
@@ -154,5 +172,36 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
     }
     cardOrderMapper.updateByPrimaryKey(cardOrder);
     return ResponseData.ok("ok");
+  }
+
+  public String encodeDES(String datasource){
+    try{
+      SecureRandom random = new SecureRandom();
+      DESKeySpec desKey = new DESKeySpec("2A4855B0ADB3473985A7955E".getBytes());
+      //创建一个密匙工厂，然后用它把DESKeySpec转换成
+      SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+      SecretKey securekey = keyFactory.generateSecret(desKey);
+      //Cipher对象实际完成加密操作
+      Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
+      //用密匙初始化Cipher对象
+      cipher.init(Cipher.ENCRYPT_MODE, securekey, random);
+      //现在，获取数据并加密
+      return Base64.encodeBase64String(cipher.doFinal(datasource.getBytes()));
+    }catch(Throwable e){
+      e.printStackTrace();
+      return null;
+    }
+  }
+
+
+  public JSONObject stringToJson(String s){
+    JSONObject result = new JSONObject();
+    String[] strs = s.split("&");
+    for(String kv: strs){
+      if(kv.split("=").length == 2){
+        result.put(kv.split("=")[0], kv.split("=")[1]);
+      }
+    }
+    return result;
   }
 }

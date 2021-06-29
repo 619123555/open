@@ -13,14 +13,14 @@ public class CardTopUpApi extends ApiAbstract{
 
   @Override
   public void executor() {
-    Map<String, String> dataMap = new HashMap<>(16);
+    Map<String, Object> dataMap = new HashMap<>(16);
     dataMap.put("tradeNo", System.currentTimeMillis() + "");
-    dataMap.put("amount", "10");
-    dataMap.put("cardType", String.valueOf(CardTypeEnum.JUN_WANG.getKey()));
-    dataMap.put("cardData", "18730241020");
+    dataMap.put("amount", 10);
+    dataMap.put("cardType", CardTypeEnum.JUN_WANG.getKey());
+    dataMap.put("cardData", "18730241020,123456,10000");
     dataMap.put("ip", "192.168.0.5");
     dataMap.put("remark", "");
-    dataMap.put("createTime", DateUtil.formatTime(new Date()));
+    dataMap.put("createTime", DateUtil.formatDateTime(new Date()));
 
     String dataContent = JSON.toJSONString(dataMap);
     DataRsp dataRsp = reqSend("trans.card.order.topup", dataContent);

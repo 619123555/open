@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 /**
@@ -36,10 +37,10 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
   CardChannelService cardChannelService;
 
   @Override
+  @Transactional(rollbackFor = {Exception.class, Error.class})
   public JSONObject execute(ApiReq apiReq) throws GatewayException {
-    CardTopUpReq cardTopUpReq = JSONObject.parseObject(apiReq.getData(), CardTopUpReq.class);
+    CardTopUpReq cardTopUpReq = (CardTopUpReq) super.pretreatment(apiReq, CardTopUpReq.class);
     log.info("卡充值交易请求参数:{}", cardTopUpReq);
-    ValidatorUtils.gatewayValidateEntity(cardTopUpReq, AddGroup.class);
 
     CardTopUpRsp cardTopUpRsp = new CardTopUpRsp();
 
@@ -52,6 +53,9 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     cardOrder.setStatus(TradeStatusEnum.INIT.name());
     cardOrder.setChannelId("HFB");
     cardOrder.setCreateTime(new Date());
+    cardOrder.setCardData(null);
+    cardOrder.setAmount(new BigDecimal(cardTopUpReq.getAmount()));
+    cardOrder.setPayType("TOPUP");
     cardOrderMapper.insert(cardOrder);
 
     cardTopUpReq.setOrderId(cardOrder.getId());

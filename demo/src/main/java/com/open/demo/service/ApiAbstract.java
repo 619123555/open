@@ -48,7 +48,6 @@ public abstract class ApiAbstract {
       // 网关成功才有data参数
       if ("10000".equals(code)) {
         String rspContent = new String(RsaUtils.decryptByPrivateKey(Base64Utils.getBytesBase64(dataRsp.getData()), Constant.PRIVATE_KEY));
-        System.out.println("明文业务数据:" + rspContent);
         dataRsp.setData(rspContent);
       }
       return dataRsp;

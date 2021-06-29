@@ -8,8 +8,6 @@ import com.open.common.dto.gateway.CardTopUpRsp;
 import com.open.common.enums.ResultCode;
 import com.open.common.enums.TradeStatusEnum;
 import com.open.common.exception.GatewayException;
-import com.open.common.utils.validator.ValidatorUtils;
-import com.open.common.utils.validator.group.AddGroup;
 import com.open.gateway.channel.card.CardChannelService;
 import com.open.gateway.entity.CardOrder;
 import com.open.gateway.mapper.CardOrderMapper;
@@ -36,9 +34,8 @@ public class CardOrderQueryApiServiceImpl extends AbstractApiService {
 
   @Override
   public JSONObject execute(ApiReq apiReq) throws GatewayException {
-    CardOrderQueryReq cardOrderQueryReq = JSONObject.parseObject(apiReq.getData(), CardOrderQueryReq.class);
+    CardOrderQueryReq cardOrderQueryReq = (CardOrderQueryReq) super.pretreatment(apiReq, CardOrderQueryReq.class);
     log.info("卡充值订单查询请求参数:{}", cardOrderQueryReq);
-    ValidatorUtils.gatewayValidateEntity(cardOrderQueryReq, AddGroup.class);
 
     CardTopUpRsp cardTopUpRsp = new CardTopUpRsp();
 

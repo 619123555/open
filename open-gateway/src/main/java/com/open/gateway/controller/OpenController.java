@@ -33,16 +33,16 @@ public class OpenController extends BaseController {
 
     @Autowired
     Map<String, ApiCommonService> apiMaps;
-//    @Autowired
+    @Autowired
     Map<String, NotifyService> channelNotifyMap;
 
     @PostMapping("/gateway")
-    public String post(@RequestHeader HttpHeaders headers, @RequestBody ApiReq apiReq) {
+    public JSONObject post(@RequestHeader HttpHeaders headers, @RequestBody ApiReq apiReq) {
         logger.info("参数:{},header:{}", apiReq, headers);
         ValidatorUtils.gatewayValidateEntity(apiReq, AddGroup.class);
         try {
-            ResponseData rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
-            return JSONObject.toJSONString(rsp);
+            JSONObject rsp = apiMaps.get(apiReq.getService()).execute(apiReq);
+            return rsp;
         } catch (GatewayException e) {
             throw new GatewayException(e.getCode(), e.getMsg());
         } catch (Exception e) {
