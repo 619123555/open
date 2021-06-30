@@ -45,19 +45,18 @@ spring:
   application:
     name: open-gateway
   redis:
-    host: 39.97.101.65
+    host: 172.21.245.42
     port: 6379
-    password: privateTest
   redisson:
     file: classpath:redisson/redisson.yml
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://39.97.101.65:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8
-      username: root
-      password: privateTest
+      url: jdbc:mysql://rm-bp1l6q6m66rez61dt.mysql.rds.aliyuncs.com:3306/ppx?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2b8
+      username: ppx
+      password: 1234@WSX1qaz
 
 
 web:
-  host: http://localhost:8090
+  host: http://47.97.219.169/gateway

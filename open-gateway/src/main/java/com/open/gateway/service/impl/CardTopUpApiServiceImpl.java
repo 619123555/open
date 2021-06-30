@@ -76,6 +76,8 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     JSONObject resultData = (JSONObject) JSONObject.toJSON(result.getData());
     cardOrder.setStatus(resultData.getString("orderStatus"));
     cardOrder.setChannelTradeNo(resultData.getString("channelTradeNo"));
+    cardOrder.setMercFee(new BigDecimal(resultData.getString("realAmount")).multiply(new BigDecimal("0.19")).setScale(2, BigDecimal.ROUND_HALF_UP));
+    cardOrder.setChannelCost(new BigDecimal(resultData.getString("realAmount")).multiply(new BigDecimal("0.14")).setScale(2, BigDecimal.ROUND_HALF_UP));
     cardOrder.setRealAmount(new BigDecimal(resultData.getString("realAmount")));
     cardOrder.setSettleAmount(new BigDecimal(resultData.getString("realAmount")));
     cardOrderMapper.updateByPrimaryKey(cardOrder);

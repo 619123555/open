@@ -7,7 +7,7 @@ singleServerConfig:
   password: privateTest
   subscriptionsPerConnection: 5
   clientName: trans
-  address: redis://39.97.101.65:6379
+  address: redis://172.21.245.42:6379
   subscriptionConnectionMinimumIdleSize: 1
   subscriptionConnectionPoolSize: 1
   connectionMinimumIdleSize: 4

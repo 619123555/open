@@ -42,7 +42,7 @@ public class RedisConfiguration {
   }
 
   @Bean
-  @ConditionalOnProperty("spring.redis.nodes")
+  @ConditionalOnProperty("spring.redis.cluster.nodes")
   public JedisCluster getJedisCluster() {
     Cluster cluster = this.redisProperties.getCluster();
     if (cluster == null) {
@@ -69,7 +69,7 @@ public class RedisConfiguration {
   }
 
   @Bean
-  @ConditionalOnProperty("spring.redis.nodes")
+  @ConditionalOnProperty("spring.redis.cluster.nodes")
   public RedisClusterConfiguration getClusterConfig() {
     Cluster cluster = this.redisProperties.getCluster();
     if (cluster == null) {
@@ -87,7 +87,7 @@ public class RedisConfiguration {
   }
 
   @Bean
-  @ConditionalOnProperty("spring.redis.nodes")
+  @ConditionalOnProperty("spring.redis.cluster.nodes")
   public JedisConnectionFactory redisConnectionFactory(RedisClusterConfiguration cluster) {
     return new JedisConnectionFactory(cluster);
   }

@@ -30,6 +30,12 @@ public class CardOrder implements Serializable {
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @Column(name = "merc_fee")
+    private BigDecimal mercFee;
+
+    @Column(name = "channel_cost")
+    private BigDecimal channelCost;
+
     @Column(name = "real_amount")
     private BigDecimal realAmount;
 
