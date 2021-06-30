@@ -2,6 +2,7 @@ package com.open.gateway.channel.card;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.open.common.dto.ResponseData;
@@ -15,6 +16,7 @@ import com.open.gateway.entity.CardOrder;
 import com.open.gateway.mapper.CardOrderMapper;
 import com.open.gateway.service.NotifyService;
 import java.math.BigDecimal;
+import java.security.Security;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,9 +24,11 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
@@ -57,7 +61,7 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
     req.put("bill_id", cardTopUpReq.getOrderId());
     req.put("bill_time", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
     req.put("card_type", cardTopUpReq.getCardType());
-    req.put("card_data", encodeDES(cardTopUpReq.getCardData()));
+    req.put("card_data", encodeDES(desKey, cardTopUpReq.getCardData()));
     req.put("notify_url", host + notifyUrl);
     req.put("time_stamp", DateUtil.format(cardTopUpReq.getCreateTime(), DatePattern.PURE_DATETIME_FORMAT));
     req.put("pay_amt", cardTopUpReq.getAmount());
@@ -203,5 +207,33 @@ public class HFBChannelServiceImpl implements CardChannelService, NotifyService 
       }
     }
     return result;
+  }
+
+
+  public static void main(String[] args) {
+    Security.addProvider(new com.sun.crypto.provider.SunJCE());
+    Security.addProvider(new BouncyCastleProvider());
+    System.out.println(encodeDES("JUNNET_123456_123456_COM", "123456"));
+  }
+
+  public static String encodeDES(String key, String msg){
+    try {
+      // 生成密钥
+      byte[] bytes = key.getBytes("UTF-8");
+      SecretKey deskey = new SecretKeySpec(bytes, "DESede");
+      // 加密工具
+      Cipher c1 = Cipher.getInstance("DESede/ECB/PKCS7Padding", "BC");
+      // 加密
+      c1.init(Cipher.ENCRYPT_MODE, deskey);
+      byte[] msgBytes = msg.getBytes("UTF-8");
+      byte[] doFinal = c1.doFinal(msgBytes);
+      for (int i = 0; i < doFinal.length; i++) {
+        System.out.print(doFinal[i] + "\t");
+      }
+      return HexUtil.encodeHexStr(doFinal);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
   }
 }

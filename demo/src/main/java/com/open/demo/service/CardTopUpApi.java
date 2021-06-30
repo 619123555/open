@@ -15,9 +15,9 @@ public class CardTopUpApi extends ApiAbstract{
   public void executor() {
     Map<String, Object> dataMap = new HashMap<>(16);
     dataMap.put("tradeNo", System.currentTimeMillis() + "");
-    dataMap.put("amount", 10);
+    dataMap.put("amount", 1);
     dataMap.put("cardType", CardTypeEnum.JUN_WANG.getKey());
-    dataMap.put("cardData", "2102020940320106,6663102102736909,1");
+    dataMap.put("cardData", "2102020940415124,9262101410656900,1");
     dataMap.put("ip", "192.168.0.5");
     dataMap.put("remark", "");
     dataMap.put("createTime", DateUtil.formatDateTime(new Date()));

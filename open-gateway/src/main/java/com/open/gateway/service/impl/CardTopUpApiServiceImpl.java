@@ -63,7 +63,7 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     ResponseData result = cardChannelService.topUp(cardTopUpReq);
     log.info("卡充值交易通道返回信息: tradeNo:{}, result:{}", cardOrder.getTradeNo(), result);
 
-    if(!ResultCode.SUCCESS.equals(result.getCode())){
+    if(ResultCode.SUCCESS.getCode() != result.getCode()){
       cardOrder.setStatus(TradeStatusEnum.FAIL.name());
       cardOrder.setRemark(result.getMsg());
       cardOrderMapper.updateByPrimaryKey(cardOrder);
@@ -76,8 +76,8 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     JSONObject resultData = (JSONObject) JSONObject.toJSON(result.getData());
     cardOrder.setStatus(resultData.getString("orderStatus"));
     cardOrder.setChannelTradeNo(resultData.getString("channelTradeNo"));
-    cardOrder.setRealAmount(StringUtils.isEmpty(resultData.getString("card_real_amt")) ? null : new BigDecimal(resultData.getString("card_real_amt")));
-    cardOrder.setSettleAmount(StringUtils.isEmpty(resultData.getString("card_settle_amt")) ? null :new BigDecimal(resultData.getString("card_settle_amt")));
+    cardOrder.setRealAmount(new BigDecimal(resultData.getString("realAmount")));
+    cardOrder.setSettleAmount(new BigDecimal(resultData.getString("realAmount")));
     cardOrderMapper.updateByPrimaryKey(cardOrder);
 
 
