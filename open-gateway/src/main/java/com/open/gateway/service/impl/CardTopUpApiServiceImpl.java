@@ -59,7 +59,7 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
     cardOrderMapper.insert(cardOrder);
 
     cardTopUpReq.setOrderId(cardOrder.getId());
-    log.info("卡充值交易请求通道信息: tradeNo:{}, result:{}", cardOrder.getTradeNo(), cardTopUpReq);
+    log.info("卡充值交易请求通道信息: tradeNo:{}, request:{}", cardOrder.getTradeNo(), cardTopUpReq);
     ResponseData result = cardChannelService.topUp(cardTopUpReq);
     log.info("卡充值交易通道返回信息: tradeNo:{}, result:{}", cardOrder.getTradeNo(), result);
 
@@ -84,6 +84,7 @@ public class CardTopUpApiServiceImpl extends AbstractApiService {
 
 
     BeanUtils.copyProperties(cardOrder, cardTopUpRsp);
+    cardTopUpRsp.setOrderId(cardOrder.getId());
     cardTopUpRsp.setSubCode(ResultCode.SUCCESS.getCode());
     cardTopUpRsp.setSubMsg(ResultCode.SUCCESS.getMsg());
     return (JSONObject) JSONObject.toJSON(cardTopUpRsp);

@@ -4,8 +4,8 @@ package com.open.common.enums;
  *@Description: 代付相关订单交易类型
  */
 public enum PaymentPayTypeEnum {
-  PAYMENT("代付", "0001"),
-  PAYMENT_QUERY("代付订单查询", "0002");
+  ALIPAY("0001", "支付宝"),
+  CARD("0002", "银行卡");
 
   private String key;
   private String value;
